@@ -9,7 +9,7 @@ import { CatalogosProvider } from "./context/catalogos-context.tsx";
 
 
 createRoot(document.getElementById("root")!).render(
-  <GoogleOAuthProvider clientId="226796582545-c2ffdtm7uf0qrc22r87mbc0krnsrkb24.apps.googleusercontent.com">
+  <GoogleOAuthProvider clientId="1056435830719-183eq4etd5ic0aq6k89jglhn33bpvigh.apps.googleusercontent.com">
     <StrictMode>
       <ConfiguracionSistemaProvider>
         <FiltrosProvider>
