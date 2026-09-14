@@ -18,27 +18,17 @@ const UsuarioService = {
   },
 
   login: async (payload: any) => {
-    try {
-      const response = await axios.post(`${apiUrl}/auth/login`, payload);
-      return response;
-    } catch (error) {
-      console.error("Error al iniciar Sesion:", error);
-      return null;
-    }
-  },
+  const response = await axios.post(`${apiUrl}/auth/login`, payload);
+  return response;
+},
 
-  loginConGoogle: async (token: string, empresaId: number) => {
-    try {
-      const response = await axios.post(`${apiUrl}/auth/login-con-google`, {
-        token,
-        empresaId,
-      });
-      return response;
-    } catch (error) {
-      console.error("Error al iniciar Sesion:", error);
-      return null;
-    }
-  },
+loginConGoogle: async (token: string, empresaId: number) => {
+  const response = await axios.post(`${apiUrl}/auth/login-con-google`, {
+    token,
+    empresaId,
+  });
+  return response;
+},
 
   obtenerRol: async (id: number) => {
     try {

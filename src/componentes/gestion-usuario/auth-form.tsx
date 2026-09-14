@@ -96,14 +96,18 @@ export default function AuthForm({ onClose, onSuccess }: { onClose?: () => void;
           type: "manual",
           message: "Debes seleccionar una empresa antes de iniciar sesión con Google.",
         });
-        return; // Salir sin hacer la petición
+        return;
       }
 
       const token = credentialResponse.credential;
-
       const res = await UsuarioService.loginConGoogle(token ? token : "", Number(empresaId));
 
-      localStorage.setItem("Token", res?.data.refreshToken);
+      const refreshToken = res?.data.refreshToken;
+      localStorage.setItem("Token", refreshToken);
+
+      const decodedToken: DecodedToken = jwtDecode(refreshToken);
+      const config = await UsuarioService.obtenerConfiguracion(decodedToken.empresaId);
+      setConfiguracionEnContext(config);
 
       window.location.href = "/admin";
     } catch (error) {
