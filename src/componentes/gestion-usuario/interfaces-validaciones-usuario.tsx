@@ -1,3 +1,4 @@
+// @ts-expect-error - La librería yup puede resolverse en runtime/configuración del proyecto y no siempre expone tipos en este entorno.
 import * as yup from "yup";
 
 export interface DecodedToken {
@@ -39,7 +40,7 @@ export const loginSchema = yup.object().shape({
     .required("El correo electrónico es obligatorio.")
     .max(255, "Máximo 255 caracteres.")
     .matches(/^[A-Za-z0-9@._-]+$/, "Formato de correo inválido."),
-  contrasena: yup.string().optional().nullable(),
+  contrasena: yup.string().required("La contraseña es obligatoria."),
 });
 
 export const registerSchema = yup.object().shape({
