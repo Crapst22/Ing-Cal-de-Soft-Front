@@ -1,15 +1,15 @@
+export type TipoPresentacion = "volume" | "pack";
+
 export interface Presentacion {
   id: number;
+  tipo: TipoPresentacion;
+  quantity: number | null;
+  volumen: number | null;
+  unidad: string | null;
   denominacion: string;
-  observacion: string | null;
-  createdAt: string;
-  updatedAt: string;
+  sistema: number;
   deletedAt: string | null;
-  usuarioCreatedId: number;
-  usuarioUpdatedId: number;
-  sistema: boolean;
 }
-
 
 export interface ConsultarPresentacion {
   id: number;
@@ -17,16 +17,6 @@ export interface ConsultarPresentacion {
 }
 
 export interface SelectPresentacion {
-  id: number;
-  denominacion: string;
-}
-
-export interface SelectEnvase {
-  id: number;
-  denominacion: string;
-}
-
-export interface SelectUnidad {
   id: number;
   denominacion: string;
 }

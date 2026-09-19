@@ -481,6 +481,22 @@ export default function ConsultarProductos() {
       scrollable: false,
     },
     {
+      header: "Presentación",
+      accessor: "presentacion",
+      flex: 0.6,
+      type: "text",
+      editable: false,
+      scrollable: false,
+      formatFunction: ({ row }) =>
+        row.presentacion?.denominacion ? (
+          <span className="truncate" title={row.presentacion.denominacion}>
+            {row.presentacion.denominacion}
+          </span>
+        ) : (
+          <span className="text-gray-400">-</span>
+        ),
+    },
+    {
       header: "Precio", 
       accessor:"precio",
       flex:0.3,

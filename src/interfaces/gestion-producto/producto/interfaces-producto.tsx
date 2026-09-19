@@ -36,6 +36,7 @@ export interface Producto {
   usuarioUpdatedId: number;
   linea: SelectLinea;
   marca: SelectMarca;
+  presentacion?: SelectPresentacion | null;
   /* itemsAlternativo?: ItemProdAlternativo[] | null;
   poseeAlternativos: boolean;
   esAlternativo: boolean; */
@@ -84,6 +85,7 @@ export interface ConsultarProducto {
   precioMayoristaConIva: number;
   precioClienteConIva: number;
   precioOfertaConIva: number;
+  presentacion?: SelectPresentacion | null;
 }
 
 
