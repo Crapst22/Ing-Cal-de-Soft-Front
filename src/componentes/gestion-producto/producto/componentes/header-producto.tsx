@@ -1,19 +1,20 @@
-import { Package, PlusCircle, Search } from "lucide-react";
+import { Package, PlusCircle, Search, TrendingUp } from "lucide-react";
 import { Button } from "../../../ui/Button";
 import { CardHeader, CardTitle } from "../../../ui/Card";
 import { Input } from "../../../ui/Input";
 import { EstadisticasSimples } from "../../../herramientas/reutilizables/estadisticas-simples";
 import { ImpresionForm } from "../../../herramientas/reutilizables/impresion-form";
-import { puedeAgregarProducto } from "../domain/permisos-producto";
+import { puedeAgregarProducto, puedeActualizarPreciosMasivo } from "../domain/permisos-producto";
 
 interface Props {
-  roles:number[];
+  roles: number[];
   codigo: string;
   exacto: boolean;
   onChangeCodigo: (value: string) => void;
   onChangeExacto: (value: boolean) => void;
   onBuscarRapido: () => void;
   onNuevo: () => void;
+  onCambioPreciosMasivo?: () => void;
   total: number;
   mostrados: number;
   paginaActual: number;
@@ -29,6 +30,7 @@ export function ProductosHeader({
   onChangeExacto,
   onBuscarRapido,
   onNuevo,
+  onCambioPreciosMasivo,
   total,
   mostrados,
   paginaActual,
@@ -69,7 +71,7 @@ export function ProductosHeader({
         <EstadisticasSimples filtrados={total} mostrados={mostrados} />
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2 items-center">
         <ImpresionForm
           entityName="Productos"
           onImprimirTodo={onImprimirTodo}
@@ -77,13 +79,24 @@ export function ProductosHeader({
           totalItems={total}
           currentPage={paginaActual}
         />
+        {puedeActualizarPreciosMasivo(roles) && onCambioPreciosMasivo && (
+          <Button
+            onClick={onCambioPreciosMasivo}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1.5"
+            title="Ajuste masivo de precios por línea o global"
+          >
+            <TrendingUp className="h-4 w-4" />
+            <span>Ajuste Masivo</span>
+          </Button>
+        )}
         {puedeAgregarProducto(roles) && (
-           <Button onClick={onNuevo} className="bg-blue-500 hover:bg-blue-700 text-white">
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Añadir
-        </Button>
+          <Button onClick={onNuevo} className="bg-blue-500 hover:bg-blue-700 text-white">
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Añadir
+          </Button>
         )}
       </div>
     </CardHeader>
   );
 }
+

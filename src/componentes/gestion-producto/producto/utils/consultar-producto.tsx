@@ -296,12 +296,12 @@ export default function ConsultarProductos() {
     }
   };
 
-  const handleMostrarCambioPrecios = async (id: number) => {
+  const handleMostrarCambioPrecios = async (id?: number) => {
     if (id) {
       const producto = await ProductoService.obtenerId(id);
       setProductoInfo(producto);
-      setMostrarCambioPrecios(true);
     }
+    setMostrarCambioPrecios(true);
   };
 
   const handleCerrarHistorialPrecios = () => {
@@ -316,8 +316,19 @@ export default function ConsultarProductos() {
     setProductoInfo({} as Producto);
   };
 
+  const handleSuccessCambioPrecios = (mensaje: string) => {
+    addAlert({
+      type: TipoAlerta.SUCCESS,
+      title: TituloAlerta.SUCCESS,
+      message: mensaje,
+      autoClose: true,
+      duration: 4000,
+    });
+  };
+
   const handleCerrarProductosAlternativos = () => {
     setMostrarProductosAlternativos(false);
+
     setProductoInfo({} as Producto);
   };
 
@@ -520,6 +531,7 @@ export default function ConsultarProductos() {
                 onChangeExacto={setExacto}
                 onBuscarRapido={() => handleBuscarProductosRapido(true)}
                 onNuevo={openModal}
+                onCambioPreciosMasivo={() => handleMostrarCambioPrecios()}
                 total={entidadesTotales}
                 mostrados={productos.length}
                 paginaActual={paginaActual}
@@ -537,6 +549,7 @@ export default function ConsultarProductos() {
                 onChangeExacto={setExacto}
                 onBuscarRapido={() => handleBuscarProductosRapido(true)}
                 onNuevo={openModal}
+                onCambioPreciosMasivo={() => handleMostrarCambioPrecios()}
                 total={entidadesTotales}
                 mostrados={productos.length}
                 paginaActual={paginaActual}
@@ -554,10 +567,6 @@ export default function ConsultarProductos() {
                   onEditar={handleAbrirActualizarProducto}
                   onInfo={handleMostrarInfo}
                   onDelete={handleDelete}
-                  onMovimientos={handleMostrarMovimientosStock}
-                  onCambioPrecios={handleMostrarCambioPrecios}
-                  onHistorial={handleMostrarHistorialPrecios}
-                  onNotificar={handleNotificar}
                 />
                   
                 <div className="lg:hidden space-y-3">
@@ -622,8 +631,10 @@ export default function ConsultarProductos() {
 
         onSuccessAlta={handleSuccess}
         onSuccessActualizar={handleActualizarSuccess}
+        onSuccessCambioPrecios={handleSuccessCambioPrecios}
         onRefetch={handleBuscarProductos}
       />
+
 
       {productoNotificacionSeleccionado && (
         <NotificacionModal

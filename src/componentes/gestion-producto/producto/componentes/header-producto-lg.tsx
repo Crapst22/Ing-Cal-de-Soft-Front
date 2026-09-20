@@ -1,19 +1,20 @@
-import { Package, PlusCircle, Search } from "lucide-react";
+import { Package, PlusCircle, Search, TrendingUp } from "lucide-react";
 import { Button } from "../../../ui/Button";
 import { CardHeader, CardTitle } from "../../../ui/Card";
 import { Input } from "../../../ui/Input";
 import { EstadisticasSimples } from "../../../herramientas/reutilizables/estadisticas-simples";
 import { ImpresionForm } from "../../../herramientas/reutilizables/impresion-form";
-import { puedeAgregarProducto } from "../domain/permisos-producto";
+import { puedeAgregarProducto, puedeActualizarPreciosMasivo } from "../domain/permisos-producto";
 
 interface Props {
   codigo: string;
   exacto: boolean;
-  roles:number[];
+  roles: number[];
   onChangeCodigo: (value: string) => void;
   onChangeExacto: (value: boolean) => void;
   onBuscarRapido: () => void;
   onNuevo: () => void;
+  onCambioPreciosMasivo?: () => void;
   total: number;
   mostrados: number;
   paginaActual: number;
@@ -29,6 +30,7 @@ export function ProductosHeaderLg({
   onChangeExacto,
   onBuscarRapido,
   onNuevo,
+  onCambioPreciosMasivo,
   total,
   mostrados,
   paginaActual,
@@ -57,8 +59,7 @@ export function ProductosHeaderLg({
           </div>
         </div>
 
-      <div className="flex items-center gap-2">
-
+        <div className="flex items-center gap-2">
           <label className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"
@@ -68,31 +69,28 @@ export function ProductosHeaderLg({
             Exacto
           </label>
         </div>
-
       </div>
-      {puedeAgregarProducto(roles) && (<Button className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1.5 px-3 py-2 rounded-lg shadow-sm"
-        onClick={onNuevo}><PlusCircle className="h-4 w-4" /></Button>)}
-      
-      {/* Botón de agregar e impresion por el momento no lo mostramos en el celu */}
-      {/* <div className="flex items-center justify-between gap-3">
-        <Button
-          className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1.5 px-3 py-2 rounded-lg shadow-sm"
-          onClick={onNuevo}
-        >
-          <PlusCircle className="h-4 w-4" />
-        </Button>
-        
-        <div className="flex-shrink-0">
-          <ImpresionForm
-            entityName="Presupuestos"
-            onImprimirTodo={onImprimirTodo}
-            onImprimirPagina={onImprimirPagina}
-            totalItems={total}
-            currentPage={paginaActual}
-          />
-        </div>
-      </div> */}
 
+      <div className="flex items-center gap-2">
+        {puedeActualizarPreciosMasivo(roles) && onCambioPreciosMasivo && (
+          <Button
+            className="bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1.5 px-3 py-2 rounded-lg shadow-sm"
+            onClick={onCambioPreciosMasivo}
+            title="Ajuste masivo de precios por línea o global"
+          >
+            <TrendingUp className="h-4 w-4" />
+          </Button>
+        )}
+        {puedeAgregarProducto(roles) && (
+          <Button
+            className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1.5 px-3 py-2 rounded-lg shadow-sm"
+            onClick={onNuevo}
+          >
+            <PlusCircle className="h-4 w-4" />
+          </Button>
+        )}
+      </div>
     </CardHeader>
   );
 }
+

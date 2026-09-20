@@ -206,3 +206,17 @@ export const TipoPrecioS: Record<number, string> = {
   3: "OFERTA",
   4: "MANUAL",
 };
+
+export const TipoAumento = {
+  PORCENTAJE: 1,
+  MONTO_FIJO: 2,
+} as const;
+
+export type TipoAumentoType = (typeof TipoAumento)[keyof typeof TipoAumento];
+
+export interface ActualizarPreciosMasivoDto {
+  tipoAumento: number;
+  valor: number;
+  lineaId?: number | null;
+  usuarioId: number;
+}
