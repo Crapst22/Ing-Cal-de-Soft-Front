@@ -6,12 +6,14 @@ import { Button } from "../../../ui/Button";
 import { Input } from "../../../ui/Input";
 import { Card, CardContent, CardFooter } from "../../../ui/Card";
 import ProductoService from "../services/producto-service";
+import LineaService from "../../linea/services/linea-service";
 import { SelectLinea } from "../../../../interfaces/gestion-producto/linea/interfaces-linea";
 import { TipoAumento, ActualizarPreciosMasivoDto } from "../../../../interfaces/gestion-producto/producto/interfaces-producto";
 import { getUsuarioId } from "../../../../utils/auth";
 import { parseApiError } from "../../../../utils/errores";
 import {
   TipoAlertaConfirmacion,
+  TituloAlertaConfirmacion,
   useConfirmation,
 } from "../../../herramientas/alertas/alertas-confirmacion";
 
@@ -47,7 +49,7 @@ export default function ActualizarPreciosMasivoModal({
     const fetchLineas = async () => {
       setCargandoLineas(true);
       try {
-        const response = await ProductoService.obtenerTotales({ denominacion: " " }, "lineas");
+        const response = await LineaService.obtenerTotales({ denominacion: " " }, "lineas");
         const listaLineas = response?.data ?? [];
         setLineas(listaLineas);
 
@@ -101,12 +103,12 @@ export default function ActualizarPreciosMasivoModal({
         : `$${valorNum} de incremento fijo`;
 
     const confirmed = await showConfirmation({
-      type: TipoAlertaConfirmacion.WARNING,
-      title: "Confirmar Aumento de Precios",
+      type: TipoAlertaConfirmacion.DESTRUCTIVE,
+      title: TituloAlertaConfirmacion.DESTRUCTIVE,
       message: `¿Estás seguro de que deseas aplicar un aumento de ${aumentoTexto} a ${alcanceTexto}? Esta operación modificará los precios en la base de datos.`,
       confirmText: "Aplicar Aumento",
       cancelText: "Cancelar",
-      onConfirm: () => {},
+      onConfirm: () => { },
     });
 
     if (!confirmed) return;
@@ -167,11 +169,10 @@ export default function ActualizarPreciosMasivoModal({
                 <button
                   type="button"
                   onClick={() => setEsGlobal(true)}
-                  className={`flex items-center justify-center gap-2 p-3 rounded-lg border text-sm font-medium transition-all ${
-                    esGlobal
+                  className={`flex items-center justify-center gap-2 p-3 rounded-lg border text-sm font-medium transition-all ${esGlobal
                       ? "bg-blue-50 dark:bg-blue-900/30 border-blue-500 text-blue-700 dark:text-blue-300 shadow-sm ring-1 ring-blue-500"
                       : "bg-white dark:bg-slate-700 border-gray-300 dark:border-slate-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-600"
-                  }`}
+                    }`}
                 >
                   <Globe className="w-4 h-4 text-blue-500" />
                   <span>Global (Todos)</span>
@@ -180,11 +181,10 @@ export default function ActualizarPreciosMasivoModal({
                 <button
                   type="button"
                   onClick={() => setEsGlobal(false)}
-                  className={`flex items-center justify-center gap-2 p-3 rounded-lg border text-sm font-medium transition-all ${
-                    !esGlobal
+                  className={`flex items-center justify-center gap-2 p-3 rounded-lg border text-sm font-medium transition-all ${!esGlobal
                       ? "bg-blue-50 dark:bg-blue-900/30 border-blue-500 text-blue-700 dark:text-blue-300 shadow-sm ring-1 ring-blue-500"
                       : "bg-white dark:bg-slate-700 border-gray-300 dark:border-slate-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-600"
-                  }`}
+                    }`}
                 >
                   <Layers className="w-4 h-4 text-indigo-500" />
                   <span>Por Línea</span>
@@ -230,11 +230,10 @@ export default function ActualizarPreciosMasivoModal({
                 <button
                   type="button"
                   onClick={() => setTipoAumento(TipoAumento.PORCENTAJE)}
-                  className={`flex items-center justify-center gap-2 p-3 rounded-lg border text-sm font-medium transition-all ${
-                    tipoAumento === TipoAumento.PORCENTAJE
+                  className={`flex items-center justify-center gap-2 p-3 rounded-lg border text-sm font-medium transition-all ${tipoAumento === TipoAumento.PORCENTAJE
                       ? "bg-emerald-50 dark:bg-emerald-900/30 border-emerald-500 text-emerald-700 dark:text-emerald-300 shadow-sm ring-1 ring-emerald-500"
                       : "bg-white dark:bg-slate-700 border-gray-300 dark:border-slate-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-600"
-                  }`}
+                    }`}
                 >
                   <Percent className="w-4 h-4 text-emerald-500" />
                   <span>Porcentaje (%)</span>
@@ -243,11 +242,10 @@ export default function ActualizarPreciosMasivoModal({
                 <button
                   type="button"
                   onClick={() => setTipoAumento(TipoAumento.MONTO_FIJO)}
-                  className={`flex items-center justify-center gap-2 p-3 rounded-lg border text-sm font-medium transition-all ${
-                    tipoAumento === TipoAumento.MONTO_FIJO
+                  className={`flex items-center justify-center gap-2 p-3 rounded-lg border text-sm font-medium transition-all ${tipoAumento === TipoAumento.MONTO_FIJO
                       ? "bg-emerald-50 dark:bg-emerald-900/30 border-emerald-500 text-emerald-700 dark:text-emerald-300 shadow-sm ring-1 ring-emerald-500"
                       : "bg-white dark:bg-slate-700 border-gray-300 dark:border-slate-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-600"
-                  }`}
+                    }`}
                 >
                   <DollarSign className="w-4 h-4 text-emerald-500" />
                   <span>Monto Fijo ($)</span>
@@ -301,8 +299,8 @@ export default function ActualizarPreciosMasivoModal({
                   {esGlobal
                     ? "todos los productos del sistema"
                     : lineaSeleccionada
-                    ? `los productos de la línea "${lineaSeleccionada.denominacion}"`
-                    : "los productos de la línea seleccionada"}
+                      ? `los productos de la línea "${lineaSeleccionada.denominacion}"`
+                      : "los productos de la línea seleccionada"}
                 </strong>
                 .
               </div>

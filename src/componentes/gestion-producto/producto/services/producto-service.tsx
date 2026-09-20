@@ -38,6 +38,25 @@ const ProductoService = {
     }
   },
 
+  actualizarPreciosMasivo: async (
+    payload: ActualizarPreciosMasivoDto
+  ): Promise<{ mensaje: string }> => {
+    try {
+      const token = localStorage.getItem("Token");
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      const { data } = await axios.put<{ mensaje: string }>(
+        `${apiUrl}/producto/actualizar-precios-masivo`,
+        payload,
+        { headers }
+      );
+      return data;
+    } catch (error) {
+      console.error("Error al actualizar precios masivamente:", error);
+      throw error;
+    }
+  },
+
   
   obtenerMobile: async (filtros: any) => {
     try {

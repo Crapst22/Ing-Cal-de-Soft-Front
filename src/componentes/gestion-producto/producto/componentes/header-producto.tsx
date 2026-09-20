@@ -96,7 +96,7 @@ export function ProductosHeader({
               onBlur={() => {
                 setTimeout(() => setAbierto(false), 150);
               }}
-             // onKeyDown={(e) => e.key === "Enter" && onBuscarRapido()}
+            // onKeyDown={(e) => e.key === "Enter" && onBuscarRapido()}
             />
 
             {abierto && sugerencias.length > 0 && (
@@ -158,5 +158,4 @@ export function ProductosHeader({
     </CardHeader>
   );
 }
-
 
