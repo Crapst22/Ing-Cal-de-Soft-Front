@@ -6,14 +6,12 @@ import { Button } from "../../../ui/Button";
 import { Input } from "../../../ui/Input";
 import { Card, CardContent, CardFooter } from "../../../ui/Card";
 import ProductoService from "../services/producto-service";
-import LineaService from "../../linea/services/linea-service";
 import { SelectLinea } from "../../../../interfaces/gestion-producto/linea/interfaces-linea";
 import { TipoAumento, ActualizarPreciosMasivoDto } from "../../../../interfaces/gestion-producto/producto/interfaces-producto";
 import { getUsuarioId } from "../../../../utils/auth";
 import { parseApiError } from "../../../../utils/errores";
 import {
   TipoAlertaConfirmacion,
-  TituloAlertaConfirmacion,
   useConfirmation,
 } from "../../../herramientas/alertas/alertas-confirmacion";
 
@@ -49,7 +47,7 @@ export default function ActualizarPreciosMasivoModal({
     const fetchLineas = async () => {
       setCargandoLineas(true);
       try {
-        const response = await LineaService.obtenerTotales({ denominacion: " " }, "lineas");
+        const response = await ProductoService.obtenerTotales({ denominacion: " " }, "lineas");
         const listaLineas = response?.data ?? [];
         setLineas(listaLineas);
 
@@ -103,8 +101,8 @@ export default function ActualizarPreciosMasivoModal({
         : `$${valorNum} de incremento fijo`;
 
     const confirmed = await showConfirmation({
-      type: TipoAlertaConfirmacion.DESTRUCTIVE,
-      title: TituloAlertaConfirmacion.DESTRUCTIVE,
+      type: TipoAlertaConfirmacion.WARNING,
+      title: "Confirmar Aumento de Precios",
       message: `¿Estás seguro de que deseas aplicar un aumento de ${aumentoTexto} a ${alcanceTexto}? Esta operación modificará los precios en la base de datos.`,
       confirmText: "Aplicar Aumento",
       cancelText: "Cancelar",
