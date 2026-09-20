@@ -14,15 +14,15 @@ import { getUsuarioId } from "../../../../utils/auth";
 export function usePresentacionForm(
   presentacion: Presentacion | undefined,
   onClose: () => void,
-  onSuccess: (mensajeAlerta: string) => void,
+  onSuccess: (mensajeAlerta: string) => void
 ) {
+  // ===================== TOKEN =====================
   const usuarioId = getUsuarioId();
 
+  // ===================== FORM =====================
   const methods = useForm<FormValues>({
     resolver: yupResolver(schema),
-    defaultValues: presentacion
-      ? transformData(presentacion)
-      : { tipo: "pack", quantity: null, volumen: null, unidad: null },
+    defaultValues: presentacion ? transformData(presentacion) : { tipo: "pack" },
   });
 
   const {
@@ -31,30 +31,28 @@ export function usePresentacionForm(
     formState: { isSubmitting, errors },
   } = methods;
 
+  // ===================== SUBMIT =====================
   const onSubmit = async (formData: FormValues) => {
     let response: ResponsePost;
 
     try {
+      const payload = {
+        tipo: formData.tipo,
+        quantity: formData.quantity ?? null,
+        volumen: formData.volumen ?? null,
+        unidad: formData.unidad ?? null,
+      };
+
       if (presentacion) {
-        const payload = {
-          tipo: formData.tipo,
-          quantity: formData.quantity,
-          volumen: formData.volumen,
-          unidad: formData.unidad,
+        response = await PresentacionService.actualizar(presentacion.id, {
+          ...payload,
           usuarioUpdatedId: usuarioId,
-        };
-
-        response = await PresentacionService.actualizar(presentacion.id, payload);
+        });
       } else {
-        const payload = {
-          tipo: formData.tipo,
-          quantity: formData.quantity,
-          volumen: formData.volumen,
-          unidad: formData.unidad,
+        response = await PresentacionService.nuevo({
+          ...payload,
           usuarioCreatedId: usuarioId,
-        };
-
-        response = await PresentacionService.nuevo(payload);
+        });
       }
 
       onClose();

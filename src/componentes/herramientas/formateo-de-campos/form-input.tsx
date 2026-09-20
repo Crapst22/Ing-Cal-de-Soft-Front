@@ -15,6 +15,7 @@ type FormInputProps = {
   classNameDisabled?: string;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onChange?: (value: string) => void;
   inputRef?: React.Ref<HTMLInputElement>;
   mask?: string;
 };
@@ -32,6 +33,7 @@ export default function FormInput({
   defaultValue,
   onKeyDown,
   onBlur,
+  onChange,
   inputRef,
 }: FormInputProps) {
   const {
@@ -66,6 +68,10 @@ export default function FormInput({
               disabled={disabled}
               style={style}
               onKeyDown={onKeyDown}
+              onChange={(e) => {
+                field.onChange(e.target.value);
+                onChange?.(e.target.value);
+              }}
               onBlur={(e) => {
                 field.onBlur();
                 onBlur?.(e);

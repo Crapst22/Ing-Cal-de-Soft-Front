@@ -1,7 +1,8 @@
 import { FormProvider } from "react-hook-form";
-import { Card, CardContent, CardFooter } from "../../../ui/Card";
+import { CardContent, CardFooter } from "../../../ui/Card";
+import { Card } from "../../../ui/Card";
 import { Button } from "../../../ui/Button";
-import { Presentacion, TipoPresentacion } from "../../../../interfaces/gestion-producto/presentacion/interfaces-presentacion";
+import FormInput from "../../../herramientas/formateo-de-campos/form-input";
 import {
   TipoAlertaConfirmacion,
   TituloAlertaConfirmacion,
@@ -10,9 +11,15 @@ import {
 import { Package } from "lucide-react";
 import EncabezadoFormularios from "../../../ui/encabezadoFormularios";
 import { usePresentacionForm } from "../hooks/use-presentacion-form";
-import { generarDenominacionPresentacion } from "../utils/presentacion-nombre";
+import { Presentacion } from "../../../../interfaces/gestion-producto/presentacion/interfaces-presentacion";
+import Select from "react-select";
 
 const NOMBRE_ENTIDAD = "Presentación";
+
+const OPCIONES_TIPO = [
+  { value: "volume", label: "Volumen" },
+  { value: "pack", label: "Pack" },
+];
 
 export default function RegistrarActualizarPresentacionForm({
   presentacion,
@@ -23,25 +30,14 @@ export default function RegistrarActualizarPresentacionForm({
   onClose: () => void;
   onSuccess: (mensajeAlerta: string) => void;
 }) {
+  // ===================== HOOK DEL FORM =====================
   const { methods, handleSubmit, onSubmit, isSubmitting, errors } =
     usePresentacionForm(presentacion, onClose, onSuccess);
 
   const isEdit = !!presentacion;
+  const tipo = methods.watch("tipo");
 
-  const { watch, setValue } = methods;
-
-  const tipo = (watch("tipo") ?? "pack") as TipoPresentacion;
-  const quantity = watch("quantity");
-  const volumen = watch("volumen");
-  const unidad = watch("unidad");
-
-  const denominacionPreview = generarDenominacionPresentacion(
-    tipo,
-    quantity,
-    volumen,
-    unidad,
-  );
-
+  // ===================== CONFIRMACION DE CIERRE =====================
   const { showConfirmation, AlertasConfirmacion } = useConfirmation();
 
   const handleOnClose = async () => {
@@ -62,139 +58,55 @@ export default function RegistrarActualizarPresentacionForm({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <Card className="w-full max-w-xl bg-white mx-auto shadow-lg rounded-2xl overflow-hidden transform transition-all duration-300 ease-in-out">
+      <Card className="w-full max-w-2xl bg-white mx-auto shadow-lg rounded-2xl overflow-hidden transform transition-all duration-300 ease-in-out">
         <EncabezadoFormularios
           title={presentacion ? `Actualizar ${NOMBRE_ENTIDAD}` : NOMBRE_ENTIDAD}
-          subtitle={
-            presentacion
-              ? "Sólo puede visualizarse, no modificarse."
-              : "Ingresa los datos."
-          }
+          subtitle={presentacion ? "Sólo puede visualizarse." : "Ingresa los datos."}
           icon={<Package className="form-icon" />}
           onClose={handleOnClose}
         />
 
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <CardContent className="space-y-4 px-4 py-3">
-              {/* Tipo */}
-              <div className="space-y-1">
+            <CardContent className="space-y-3 px-3 py-2">
+              <div className="space-y-1 sm:space-y-2">
                 <label className="label-base">Tipo</label>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    disabled={presentacion?.sistema ? true : false}
-                    onClick={() =>
-                      setValue("tipo", "volume", { shouldValidate: true })
-                    }
-                    className={`py-2 rounded-md text-sm font-medium border transition ${
-                      tipo === "volume"
-                        ? "bg-blue-500 text-white border-blue-500"
-                        : "bg-gray-100 text-gray-700 border-gray-300"
-                    }`}
-                  >
-                    Volumen
-                  </button>
-                  <button
-                    type="button"
-                    disabled={presentacion?.sistema ? true : false}
-                    onClick={() =>
-                      setValue("tipo", "pack", { shouldValidate: true })
-                    }
-                    className={`py-2 rounded-md text-sm font-medium border transition ${
-                      tipo === "pack"
-                        ? "bg-blue-500 text-white border-blue-500"
-                        : "bg-gray-100 text-gray-700 border-gray-300"
-                    }`}
-                  >
-                    Pack
-                  </button>
-                </div>
-                {errors.tipo && (
-                  <small className="text-red-500">
-                    {errors.tipo.message as string}
-                  </small>
-                )}
-              </div>
-
-              {/* Cantidad (solo pack) */}
-              {tipo === "pack" && (
-                <div className="space-y-1">
-                  <label className="label-base">Cantidad (opcional)</label>
-                  <input
-                    type="number"
-                    min={1}
-                    step={1}
-                    placeholder="Ej: 6"
-                    value={quantity ?? ""}
-                    onChange={(e) => {
-                      const v = e.target.value;
-                      setValue("quantity", v === "" ? null : Number(v), {
-                        shouldValidate: true,
-                      });
-                    }}
-                    className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md text-gray-800 text-sm"
-                  />
-                  {errors.quantity && (
-                    <small className="text-red-500">
-                      {errors.quantity.message as string}
-                    </small>
-                  )}
-                </div>
-              )}
-
-              {/* Volumen */}
-              <div className="space-y-1">
-                <label className="label-base">
-                  Volumen {tipo === "volume" ? "" : "(opcional)"}
-                </label>
-                <input
-                  type="number"
-                  min={0}
-                  step="any"
-                  placeholder="Ej: 500"
-                  value={volumen ?? ""}
-                  onChange={(e) => {
-                    const v = e.target.value;
-                    setValue("volumen", v === "" ? null : Number(v), {
-                      shouldValidate: true,
-                    });
-                  }}
-                  className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md text-gray-800 text-sm"
-                />
-                {errors.volumen && (
-                  <small className="text-red-500">
-                    {errors.volumen.message as string}
-                  </small>
-                )}
-              </div>
-
-              {/* Unidad */}
-              <div className="space-y-1">
-                <label className="label-base">Unidad</label>
-                <input
-                  type="text"
-                  placeholder="Ej: ml, l, kg"
-                  value={unidad ?? ""}
-                  onChange={(e) =>
-                    setValue("unidad", e.target.value, { shouldValidate: true })
+                <Select
+                  options={OPCIONES_TIPO}
+                  value={OPCIONES_TIPO.find((o) => o.value === tipo) ?? null}
+                  onChange={(opcion) =>
+                    methods.setValue("tipo", opcion?.value ?? "pack")
                   }
-                  className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md text-gray-800 text-sm"
+                  isDisabled={presentacion?.sistema ? true : false}
+                  placeholder="Selecciona el tipo"
                 />
-                {errors.unidad && (
-                  <small className="text-red-500">
-                    {errors.unidad.message as string}
-                  </small>
+                {errors.tipo?.message && (
+                  <small className="text-red-500">{String(errors.tipo.message)}</small>
                 )}
               </div>
 
-              {/* Preview */}
-              <div className="rounded-md bg-gray-50 border border-gray-200 px-3 py-2">
-                <p className="text-xs text-gray-500">Vista previa</p>
-                <p className="text-sm font-semibold text-gray-800">
-                  {denominacionPreview}
-                </p>
-              </div>
+              <FormInput
+                name="quantity"
+                label="Cantidad por pack"
+                type="number"
+                placeholder="Solo para tipo Pack (opcional)"
+                disabled={presentacion?.sistema ? true : false}
+              />
+
+              <FormInput
+                name="volumen"
+                label="Volumen"
+                type="number"
+                placeholder="Ej: 0.5 o 500 (opcional)"
+                disabled={presentacion?.sistema ? true : false}
+              />
+
+              <FormInput
+                name="unidad"
+                label="Unidad"
+                placeholder="Ej: l, ml, kg, g (opcional)"
+                disabled={presentacion?.sistema ? true : false}
+              />
             </CardContent>
 
             {errors.root?.message && (

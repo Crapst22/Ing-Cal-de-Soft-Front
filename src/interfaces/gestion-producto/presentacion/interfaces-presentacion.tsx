@@ -1,8 +1,6 @@
-export type TipoPresentacion = "volume" | "pack";
-
 export interface Presentacion {
   id: number;
-  tipo: TipoPresentacion;
+  tipo: "volume" | "pack";
   quantity: number | null;
   volumen: number | null;
   unidad: string | null;
@@ -11,12 +9,23 @@ export interface Presentacion {
   deletedAt: string | null;
 }
 
+
 export interface ConsultarPresentacion {
   id: number;
   denominacion: string;
 }
 
 export interface SelectPresentacion {
+  id: number;
+  denominacion: string;
+}
+
+export interface SelectEnvase {
+  id: number;
+  denominacion: string;
+}
+
+export interface SelectUnidad {
   id: number;
   denominacion: string;
 }
