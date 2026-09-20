@@ -1,30 +1,32 @@
 import { Producto } from "../../../../interfaces/gestion-producto/producto/interfaces-producto";
 import InformacionAuditoria from "../../../herramientas/reutilizables/informacion-auditoria";
 import RegistrarActualizarProductoForm from "../utils/registrar-actualizar-producto";
+import ActualizarPreciosMasivoModal from "./actualizar-precios-masivo-modal";
 
 interface Props {
   isAltaOpen: boolean;
   mostrarActualizarProducto: boolean;
-    mostrarInfoAuditoria: boolean;
-    mostrarMovimientosStock: boolean;
-    mostrarHistorialPrecios: boolean;
-    mostrarCambioPrecios: boolean;
-    mostrarProductosAlternativos: boolean;
-    mostrarDeQuienEsAlternativo: boolean;
-    productoSeleccionado: Producto | null;
-    productoInfo: any;
-    auditoria: any;
+  mostrarInfoAuditoria: boolean;
+  mostrarMovimientosStock: boolean;
+  mostrarHistorialPrecios: boolean;
+  mostrarCambioPrecios: boolean;
+  mostrarProductosAlternativos: boolean;
+  mostrarDeQuienEsAlternativo: boolean;
+  productoSeleccionado: Producto | null;
+  productoInfo: any;
+  auditoria: any;
   onCloseAlta: () => void;
-    onCloseActualizar: () => void;
-    onCloseAuditoria: () => void;
-    onCloseMovimientosStock: () => void;
-    onCloseHistorialPrecios: () => void;
-    onCloseCambioPrecios: () => void;
-    onCloseProductosAlternativos: () => void;
-    onCloseDeQuienEsAlternativo: () => void;
+  onCloseActualizar: () => void;
+  onCloseAuditoria: () => void;
+  onCloseMovimientosStock: () => void;
+  onCloseHistorialPrecios: () => void;
+  onCloseCambioPrecios: () => void;
+  onCloseProductosAlternativos: () => void;
+  onCloseDeQuienEsAlternativo: () => void;
   onSuccessAlta: (mensaje: string, producto?: Producto) => void;
-    onSuccessActualizar: (mensaje: string) => void;
-    onRefetch: () => void;
+  onSuccessActualizar: (mensaje: string) => void;
+  onSuccessCambioPrecios?: (mensaje: string) => void;
+  onRefetch: () => void;
 }
 
 export function ProductosModales({
@@ -49,6 +51,7 @@ export function ProductosModales({
   onCloseDeQuienEsAlternativo,
   onSuccessAlta,
   onSuccessActualizar,
+  onSuccessCambioPrecios,
   onRefetch,
 }: Props) {
   return (
@@ -78,7 +81,20 @@ export function ProductosModales({
         </div>
       )}
 
-
+      {mostrarCambioPrecios && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <ActualizarPreciosMasivoModal
+            onClose={onCloseCambioPrecios}
+            onSuccess={(mensaje) => {
+              if (onSuccessCambioPrecios) {
+                onSuccessCambioPrecios(mensaje);
+              }
+              onRefetch();
+            }}
+          />
+        </div>
+      )}
     </>
   );
 }
+
