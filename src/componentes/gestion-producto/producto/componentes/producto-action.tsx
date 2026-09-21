@@ -1,12 +1,4 @@
-import {
-  Info,
-  Pencil,
-  Trash,
-  Tag,
-  Layers,
-  History,
-  Bell,
-} from "lucide-react";
+import { Info, Pencil, Trash } from "lucide-react";
 import type { ConsultarProducto } from "../../../../interfaces/gestion-producto/producto/interfaces-producto";
 import { ActionButton } from "../../../herramientas/reutilizables/action-button";
 

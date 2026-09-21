@@ -22,7 +22,7 @@ import {
   Home,
   Smartphone,
   Bell,
-  MessageSquare,
+  TrendingUp,
 } from "lucide-react";
 import { Rol } from "../../interfaces/generales/interfaces-generales";
 
@@ -57,7 +57,13 @@ export const menuItems: MenuItem[] = [
         icon: ShoppingBag,
         label: "Producto",
         path: "producto",
-        roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.REPOSITOR,Rol.ROOT],
+        roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.REPOSITOR, Rol.ROOT],
+      },
+      {
+        icon: TrendingUp,
+        label: "Cambio de Precios",
+        path: "cambio-precios-masivo",
+        roles: [Rol.ADMINISTRADOR, Rol.ROOT],
       },
       {
         icon: DollarSign,
@@ -68,11 +74,12 @@ export const menuItems: MenuItem[] = [
           { icon: Layers, label: "Líneas", path: "linea" },
           { icon: Package, label: "Presentaciones", path: "presentacion" },
         ],
-        roles: [Rol.ADMINISTRADOR,Rol.ROOT,Rol.ROOT],
+        roles: [Rol.ADMINISTRADOR, Rol.ROOT],
       },
     ],
-    roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.REPOSITOR,Rol.ROOT],
+    roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.REPOSITOR, Rol.ROOT],
   },
+
 
   
   {
