@@ -394,7 +394,6 @@ export default function ConsultarProductos() {
       type:"text", 
       editable:false,
       align:"left", 
-      header: "Precio", accessor: "precio", flex: 0.3, type: "text", editable: false, align: "left",
       formatFunction: ({ value }) => <span>${formatPrice(value)}</span>,
     },
   ];
