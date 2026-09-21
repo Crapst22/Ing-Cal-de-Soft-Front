@@ -14,7 +14,7 @@ export default function PresentacionesSelector(props: {
   disabled?: boolean;
   error?: string;
 
-  onEnterPresentacion: (e: React.KeyboardEvent) => void;
+  onEnterPresentacion: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onChangePresentacion: (p: SelectPresentacion | null) => void;
   onAgregarPresentacion: () => void;
 }) {

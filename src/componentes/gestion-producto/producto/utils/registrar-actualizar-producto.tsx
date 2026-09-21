@@ -28,6 +28,10 @@ import EncabezadoFormularios from "../../../ui/encabezadoFormularios";
 import MarcasSelector from "../componentes/configuracion/marcas-selector";
 import { getUsuarioId } from "../../../../utils/auth";
 import RegistrarActualizarLineaForm from "../../linea/utils/registrar-actualizar-linea";
+import PresentacionSelector from "../componentes/configuracion/presentacion-selector";
+import PresentacionService from "../../presentacion/services/presentacion-service";
+import RegistrarActualizarPresentacionForm from "../../presentacion/utils/registrar-actualizar-presentacion";
+import { SelectPresentacion as SelectPresentacionEntidad } from "../../../../interfaces/gestion-producto/presentacion/interfaces-presentacion";
 import PorcentajeInput from "../../../herramientas/formateo-de-campos/porcentaje-input";
 
 
@@ -76,13 +80,17 @@ export default function RegistrarActualizarProductoForm({
 
   const [marcas, setMarcas] = React.useState<SelectMarca[]>([]);
   const [lineas, setLineas] = React.useState<SelectLinea[]>([]);
-  
+  const [presentaciones, setPresentaciones] = React.useState<SelectPresentacionEntidad[]>([]);
+
   const [denominacionMarca, setDenominacionMarca] = useState(" ");
   const [denominacionLinea, setDenominacionLinea] = useState(" ");
+  const [denominacionPresentacion, setDenominacionPresentacion] = useState(" ");
   const [selectedLinea, setSelectedLinea] = React.useState<SelectLinea>();
   const [selectedMarca, setSelectedMarca] = React.useState<SelectMarca>();
+  const [selectedPresentacion, setSelectedPresentacion] = React.useState<SelectPresentacionEntidad | null>(null);
   const [mostrarFormularioLinea, setMostrarFormularioLinea] = useState(false);
   const [mostrarFormularioMarca, setMostrarFormularioMarca] = useState(false);
+  const [mostrarFormularioPresentacion, setMostrarFormularioPresentacion] = useState(false);
   const [itemProdAlternativoSinAgregar, setItemProdAlternativoSinAgregar] = useState(false);
 
   const stock = watch(`stock`);
@@ -105,6 +113,8 @@ export default function RegistrarActualizarProductoForm({
   const selectLineaRef = useRef<HTMLDivElement>(null);
   const denominacionMarcaRef = useRef<HTMLInputElement>(null);
   const selectMarcaRef = useRef<HTMLDivElement>(null);
+  const denominacionPresentacionRef = useRef<HTMLInputElement>(null);
+  const selectPresentacionRef = useRef<HTMLDivElement>(null);
 
   const enterToObservacion = useEnterFocus(observacionRef);
   const enterToPrecioOferta = useEnterFocus(precioOfertaRef);
@@ -142,6 +152,9 @@ export default function RegistrarActualizarProductoForm({
 
           setValue("marcaId", producto.marca.id || 0);
           setSelectedMarca(producto.marca);
+
+          setValue("presentacionId", producto.presentacion?.id ?? null);
+          setSelectedPresentacion(producto.presentacion ?? null);
 
           
           setValue("denominacion", producto.denominacion || "");
@@ -237,6 +250,18 @@ export default function RegistrarActualizarProductoForm({
           console.log("No se encontró una marca con la denominación ingresada.");
         }
       }
+      if (select === "PRESENTACION") {
+        const presentaciones = await PresentacionService.obtenerTotales(
+          { denominacion: denominacionPresentacion },
+          "presentaciones",
+        );
+        if (presentaciones) {
+          console.log("Presentaciones encontradas:", presentaciones);
+          setPresentaciones(presentaciones.data);
+        } else {
+          console.log("No se encontró una presentación con la denominación ingresada.");
+        }
+      }
       
     } catch (error) {
       console.error("Error al buscar por código:", error);
@@ -255,12 +280,20 @@ export default function RegistrarActualizarProductoForm({
         handleBuscarPorDenominacion("MARCA");
       }
 
+      if (select === "PRESENTACION") {
+        handleBuscarPorDenominacion("PRESENTACION");
+      }
+
       // Esperar un poco (opcional, si el botón hace una búsqueda antes)
       setTimeout(() => {
         let selectDiv: HTMLDivElement | null = null;
 
         if (select === "MARCA") {
           selectDiv = selectMarcaRef.current;
+        }
+
+        if (select === "PRESENTACION") {
+          selectDiv = selectPresentacionRef.current;
         }
 
         if (select === "LINEA") {
@@ -544,6 +577,24 @@ export default function RegistrarActualizarProductoForm({
                 onAgregarMarca={() => setMostrarFormularioMarca(true)}
               />
 
+              <PresentacionSelector
+                denominacionPresentacion={denominacionPresentacion}
+                setDenominacionPresentacion={setDenominacionPresentacion}
+                denominacionPresentacionRef={denominacionPresentacionRef}
+                selectPresentacionRef={selectPresentacionRef}
+                presentaciones={presentaciones}
+                selectedPresentacion={selectedPresentacion}
+                presentacionId={watch("presentacionId") || 0}
+                disabled={producto && producto.sistema > 0}
+                error={errors.presentacionId?.message}
+                onEnterPresentacion={(e) => handleEnterEnSelect(e, "PRESENTACION")}
+                onChangePresentacion={(presentacion) => {
+                  methods.setValue("presentacionId", presentacion?.id || null);
+                  setSelectedPresentacion(presentacion);
+                }}
+                onAgregarPresentacion={() => setMostrarFormularioPresentacion(true)}
+              />
+
               </div>
 
               {/* Segunda fila */}
@@ -589,6 +640,16 @@ export default function RegistrarActualizarProductoForm({
             onSuccess={() => {
               setMostrarFormularioMarca(false);
               handleBuscarPorDenominacion("MARCA")
+            }}
+          />
+        )}
+
+        {mostrarFormularioPresentacion && (
+          <RegistrarActualizarPresentacionForm
+            onClose={() => setMostrarFormularioPresentacion(false)}
+            onSuccess={() => {
+              setMostrarFormularioPresentacion(false);
+              handleBuscarPorDenominacion("PRESENTACION")
             }}
           />
         )}
