@@ -296,12 +296,12 @@ export default function ConsultarProductos() {
     }
   };
 
-  const handleMostrarCambioPrecios = async (id: number) => {
+  const handleMostrarCambioPrecios = async (id?: number) => {
     if (id) {
       const producto = await ProductoService.obtenerId(id);
       setProductoInfo(producto);
-      setMostrarCambioPrecios(true);
     }
+    setMostrarCambioPrecios(true);
   };
 
   const handleCerrarHistorialPrecios = () => {
@@ -316,8 +316,19 @@ export default function ConsultarProductos() {
     setProductoInfo({} as Producto);
   };
 
+  const handleSuccessCambioPrecios = (mensaje: string) => {
+    addAlert({
+      type: TipoAlerta.SUCCESS,
+      title: TituloAlerta.SUCCESS,
+      message: mensaje,
+      autoClose: true,
+      duration: 4000,
+    });
+  };
+
   const handleCerrarProductosAlternativos = () => {
     setMostrarProductosAlternativos(false);
+
     setProductoInfo({} as Producto);
   };
 
@@ -531,6 +542,45 @@ export default function ConsultarProductos() {
               <div className="flex flex-col items-center justify-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
                 <p className="text-gray-600 dark:text-gray-400 text-lg">Cargando productos...</p>
+        ) : (
+          <>
+            {/* Tabla de productos */}
+            <Card className="border-gray-200 dark:border-slate-700">
+              <div className="hidden lg:block">
+              {/*  HEADER Desktop */}
+              <ProductosHeader
+                roles={getRoles()}
+                codigo={codigo}
+                exacto={exacto}
+                onChangeCodigo={setCodigo}
+                onChangeExacto={setExacto}
+                onBuscarRapido={() => handleBuscarProductosRapido(true)}
+                onNuevo={openModal}
+                onCambioPreciosMasivo={() => handleMostrarCambioPrecios()}
+                total={entidadesTotales}
+                mostrados={productos.length}
+                paginaActual={paginaActual}
+                onImprimirTodo={handleImprimirTodo}
+                onImprimirPagina={handleImprimirPagina}
+              />
+              </div>
+
+              <div className="lg:hidden">
+                <ProductosHeaderLg
+                codigo={codigo}
+                exacto={exacto}
+                roles={getRoles()}
+                onChangeCodigo={setCodigo}
+                onChangeExacto={setExacto}
+                onBuscarRapido={() => handleBuscarProductosRapido(true)}
+                onNuevo={openModal}
+                onCambioPreciosMasivo={() => handleMostrarCambioPrecios()}
+                total={entidadesTotales}
+                mostrados={productos.length}
+                paginaActual={paginaActual}
+                onImprimirTodo={handleImprimirTodo}
+                onImprimirPagina={handleImprimirPagina}
+              />
               </div>
             ) : error ? (
               <div className="flex flex-col items-center justify-center py-12">
@@ -548,10 +598,6 @@ export default function ConsultarProductos() {
                   onEditar={handleAbrirActualizarProducto}
                   onInfo={handleMostrarInfo}
                   onDelete={handleDelete}
-                  onMovimientos={handleMostrarMovimientosStock}
-                  onCambioPrecios={handleMostrarCambioPrecios}
-                  onHistorial={handleMostrarHistorialPrecios}
-                  onNotificar={handleNotificar}
                 />
 
                 <div className="lg:hidden space-y-3">
@@ -613,8 +659,10 @@ export default function ConsultarProductos() {
 
         onSuccessAlta={handleSuccess}
         onSuccessActualizar={handleActualizarSuccess}
+        onSuccessCambioPrecios={handleSuccessCambioPrecios}
         onRefetch={handleBuscarProductos}
       />
+
 
       {productoNotificacionSeleccionado && (
         <NotificacionModal
