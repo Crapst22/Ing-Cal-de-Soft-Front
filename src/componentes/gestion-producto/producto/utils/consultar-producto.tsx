@@ -433,19 +433,13 @@ export default function ConsultarProductos() {
 
   const handleBuscarProductosRapido = async (botonBuscar?: boolean) => {
     setBusquedaRapida(true);
-    if (botonBuscar) {
-      resetearPaginacion();
-    }
+    if (botonBuscar) resetearPaginacion();
     setLoading(true);
 
-    const filtrosConPaginacion = {
-      codigo: codigo,
-      exacto: exacto,
-      skip: skip,
-      take: take,
-    };
+    const productosFiltrados = exacto
+      ? await ProductoService.obtenerRapido({ codigo, exacto, skip, take })
+      : await ProductoService.buscarPorTexto({ texto: codigo, skip, take });
 
-    const productosFiltrados = await ProductoService.obtenerRapido(filtrosConPaginacion);
     setProductos(productosFiltrados.data);
     setEntidadesTotales(productosFiltrados.total);
     setLoading(false);
@@ -506,17 +500,48 @@ export default function ConsultarProductos() {
     <div className="w-full">
       {/* Contenido Principal */}
       <div className="p-2">
-        {loading ? (
-          <div className="flex flex-col items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-400 text-lg">Cargando productos...</p>
+        {/* Tabla de productos - Header siempre visible */}
+        <Card className="border-gray-200 dark:border-slate-700">
+          <div className="hidden lg:block">
+            {/*  HEADER Desktop */}
+            <ProductosHeader
+              roles={getRoles()}
+              codigo={codigo}
+              exacto={exacto}
+              onChangeCodigo={setCodigo}
+              onChangeExacto={setExacto}
+              onBuscarRapido={() => handleBuscarProductosRapido(true)}
+              onNuevo={openModal}
+              total={entidadesTotales}
+              mostrados={productos.length}
+              paginaActual={paginaActual}
+              onImprimirTodo={handleImprimirTodo}
+              onImprimirPagina={handleImprimirPagina}
+            />
           </div>
-        ) : error ? (
-          <div className="flex flex-col items-center justify-center py-12">
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 max-w-md">
-              <p className="text-red-600 dark:text-red-400 text-center font-medium">{error}</p>
-            </div>
+
+          <div className="lg:hidden">
+            <ProductosHeaderLg
+              codigo={codigo}
+              exacto={exacto}
+              roles={getRoles()}
+              onChangeCodigo={setCodigo}
+              onChangeExacto={setExacto}
+              onBuscarRapido={() => handleBuscarProductosRapido(true)}
+              onNuevo={openModal}
+              total={entidadesTotales}
+              mostrados={productos.length}
+              paginaActual={paginaActual}
+              onImprimirTodo={handleImprimirTodo}
+              onImprimirPagina={handleImprimirPagina}
+            />
           </div>
+
+          <CardContent className="p-0">
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
+                <p className="text-gray-600 dark:text-gray-400 text-lg">Cargando productos...</p>
         ) : (
           <>
             {/* Tabla de productos */}
@@ -557,8 +582,14 @@ export default function ConsultarProductos() {
                 onImprimirPagina={handleImprimirPagina}
               />
               </div>
-
-              <CardContent className="p-0">
+            ) : error ? (
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 max-w-md">
+                  <p className="text-red-600 dark:text-red-400 text-center font-medium">{error}</p>
+                </div>
+              </div>
+            ) : (
+              <>
                 <FiltrosAplicados />
                 <DatosTabla
                   productos={productos}
@@ -568,7 +599,7 @@ export default function ConsultarProductos() {
                   onInfo={handleMostrarInfo}
                   onDelete={handleDelete}
                 />
-                  
+
                 <div className="lg:hidden space-y-3">
                   {productos.map((producto) => (
                     <DatosCard
@@ -584,25 +615,22 @@ export default function ConsultarProductos() {
                     />
                   ))}
                 </div>
-                
+              </>
+            )}
+          </CardContent>
+        </Card>
 
-
-              </CardContent>
-            </Card>
-
-            {/* Paginación */}
-            <div className="mt-6">
-              <Paginacion
-                entidadesTotales={entidadesTotales}
-                take={take}
-                paginaActual={paginaActual}
-                onChange={handlePageChange}
-              />
-            </div>
-            <Alertas alerts={alerts} onRemove={removeAlert} />
-            <AlertasConfirmacion />
-          </>
-        )}
+        {/* Paginación */}
+        <div className="mt-6">
+          <Paginacion
+            entidadesTotales={entidadesTotales}
+            take={take}
+            paginaActual={paginaActual}
+            onChange={handlePageChange}
+          />
+        </div>
+        <Alertas alerts={alerts} onRemove={removeAlert} />
+        <AlertasConfirmacion />
       </div>
 
      {/* ================= MODALES ================= */}

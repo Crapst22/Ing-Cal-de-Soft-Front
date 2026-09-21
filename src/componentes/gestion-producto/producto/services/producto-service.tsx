@@ -14,7 +14,11 @@ const baseService = createCrudService<FormValues>("producto");
 
 const ProductoService = {
   ...baseService,
+   obtenerSugerencias: (texto: string, take = 8) =>
+    ApiService.get("/producto/search-sugerencias", { texto, take }),
 
+  buscarPorTexto: (filtros: any) =>
+    ApiService.get("/producto/search-texto", filtros),
   actualizarPreciosMasivo: async (
     payload: ActualizarPreciosMasivoDto
   ): Promise<{ mensaje: string }> => {
