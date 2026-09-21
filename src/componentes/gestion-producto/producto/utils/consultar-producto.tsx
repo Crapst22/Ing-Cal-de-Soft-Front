@@ -33,7 +33,6 @@ import { ProductoNotificacion, EntidadTipo } from "../../../NotificacionModal/in
 import { getRoles, getUsuarioId } from "../../../../utils/auth";
 import { puedeHacerAcciones } from "../domain/permisos-producto";
 
-
 export default function ConsultarProductos() {
   const [productos, setProductos] = useState<ConsultarProducto[]>([]);
   const [loading, setLoading] = useState(false);
@@ -58,27 +57,21 @@ export default function ConsultarProductos() {
   const isMounted = useRef(false);
   const inicializacionCompleta = useRef(false);
 
-  
-   // =========================
-    // PAGINACIÓN
-    // =========================
-    const {
-      paginaActual,
-      entidadesTotales,
-      skip,
-      take,
-      setEntidadesTotales,
-      handlePageChange,
-      resetearPaginacion,
-    } = usePaginacion(PAGINACION.TAKE_DEFAULT);
+  const {
+    paginaActual,
+    entidadesTotales,
+    skip,
+    take,
+    setEntidadesTotales,
+    handlePageChange,
+    resetearPaginacion,
+  } = usePaginacion(PAGINACION.TAKE_DEFAULT);
 
-    // MANEJO DE FILTROS ========================================================
   const [filtrosInicializados, setFiltrosInicializados] = useState(false);
   const {
     setFiltrosNecesarios,
     valoresFiltros,
     setValoresFiltros,
-
     limpiarFiltros,
     buscar,
     setBuscar,
@@ -86,15 +79,8 @@ export default function ConsultarProductos() {
   } = useFiltrosContext();
 
   const filtrosInicialesConsultarProducto = useFiltrosIniciales("consultar-producto");
+  const { setLineas, setMarcas, setProveedores } = useCatalogosContext();
 
-    // Contexto de catálogos
-  const {
-    setLineas,
-    setMarcas,
-    setProveedores,
-  } = useCatalogosContext();
-  
-  // Setear qué filtros mostrar en la sidebar
   useEffect(() => {
     limpiarFiltros();
     setBuscar({ cont: 0, componente: "consultar-producto" });
@@ -127,23 +113,9 @@ export default function ConsultarProductos() {
     }
   }, [buscar]);
 
-  // MANEJO DE FILTROS ========================================================
-
-
-
-    // =========================
-  // ALERTAS / CONFIRMACIONES
-  // =========================
   const { alerts, addAlert, removeAlert } = useAlerts();
   const { showConfirmation, AlertasConfirmacion } = useConfirmation();
-  
-  // =========================
-    // IMPRESIÓN
-    // =========================
-    const {
-      handleImprimirTodo,
-      handleImprimirPagina,
-    } = useProductoImpresion();
+  const { handleImprimirTodo, handleImprimirPagina } = useProductoImpresion();
 
   const fetchLineas = async () => {
     setError(null);
@@ -159,9 +131,9 @@ export default function ConsultarProductos() {
     } catch (err: any) {
       console.error("Error al obtener productos:", err);
       setError("No se pudieron cargar los productossss.");
-    } finally {
     }
   };
+
   useEffect(() => {
     fetchLineas();
   }, [valoresFiltros.denominacionLinea]);
@@ -170,7 +142,6 @@ export default function ConsultarProductos() {
     setError(null);
     try {
       const caracteresParaBusqueda = configuracion?.caracteresParaBusqueda ?? 4;
-
       if (valoresFiltros.denominacionMarca && valoresFiltros.denominacionMarca.length >= caracteresParaBusqueda) {
         const marcasTotales = await ProductoService.obtenerTotales(
           { denominacion: valoresFiltros.denominacionMarca || " " },
@@ -181,9 +152,9 @@ export default function ConsultarProductos() {
     } catch (err: any) {
       console.error("Error al obtener productos:", err);
       setError("No se pudieron cargar los productossss.");
-    } finally {
     }
   };
+
   useEffect(() => {
     fetchMarcas();
   }, [valoresFiltros.denominacionMarca]);
@@ -192,11 +163,7 @@ export default function ConsultarProductos() {
     setError(null);
     try {
       const caracteresParaBusqueda = configuracion?.caracteresParaBusqueda ?? 4;
-
-      if (
-        valoresFiltros.denominacionProveedor &&
-        valoresFiltros.denominacionProveedor.length >= caracteresParaBusqueda
-      ) {
+      if (valoresFiltros.denominacionProveedor && valoresFiltros.denominacionProveedor.length >= caracteresParaBusqueda) {
         const proveedoresTotales = await ProductoService.obtenerTotales(
           { denominacion: valoresFiltros.denominacionProveedor || " " },
           "proveedores"
@@ -206,9 +173,9 @@ export default function ConsultarProductos() {
     } catch (err: any) {
       console.error("Error al obtener proveedores:", err);
       setError("No se pudieron cargar los proveedores.");
-    } finally {
     }
   };
+
   useEffect(() => {
     fetchProveedores();
   }, [valoresFiltros.denominacionProveedor]);
@@ -223,7 +190,7 @@ export default function ConsultarProductos() {
 
   const handleCerrarActualizarProducto = () => {
     setMostrarActualizarProducto(false);
-    setProductoSeleccionado({} as Producto); // Reset de la marca seleccionada
+    setProductoSeleccionado({} as Producto);
   };
 
   const handleDelete = async (id: number) => {
@@ -235,20 +202,13 @@ export default function ConsultarProductos() {
       cancelText: "Cancelar",
       onConfirm: () => {},
     });
-
     if (!confirmed) return;
 
     let response: ResponsePost;
     try {
       response = await ProductoService.eliminar(id, usuarioId);
       setProductos(productos.filter((producto) => producto.id !== id));
-      addAlert({
-        type: TipoAlerta.SUCCESS,
-        title: TituloAlerta.SUCCESS,
-        message: response.mensaje,
-        autoClose: true,
-        duration: 3000,
-      });
+      addAlert({ type: TipoAlerta.SUCCESS, title: TituloAlerta.SUCCESS, message: response.mensaje, autoClose: true, duration: 3000 });
     } catch (err: any) {
       addAlert({
         type: TipoAlerta.ERROR,
@@ -317,18 +277,11 @@ export default function ConsultarProductos() {
   };
 
   const handleSuccessCambioPrecios = (mensaje: string) => {
-    addAlert({
-      type: TipoAlerta.SUCCESS,
-      title: TituloAlerta.SUCCESS,
-      message: mensaje,
-      autoClose: true,
-      duration: 4000,
-    });
+    addAlert({ type: TipoAlerta.SUCCESS, title: TituloAlerta.SUCCESS, message: mensaje, autoClose: true, duration: 4000 });
   };
 
   const handleCerrarProductosAlternativos = () => {
     setMostrarProductosAlternativos(false);
-
     setProductoInfo({} as Producto);
   };
 
@@ -338,35 +291,17 @@ export default function ConsultarProductos() {
   };
 
   const handleNotificar = (producto: ConsultarProducto) => {
-    setProductoNotificacionSeleccionado({
-      id: producto.id,
-      denominacion: producto.denominacion,
-      stock: producto.stock,
-    });
+    setProductoNotificacionSeleccionado({ id: producto.id, denominacion: producto.denominacion, stock: producto.stock });
     setModalAbierto(true);
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const handleSuccess = async (mensajeAlerta: string) => {
     closeModal();
-
-    addAlert({
-      type: TipoAlerta.SUCCESS,
-      title: TituloAlerta.SUCCESS,
-      message: mensajeAlerta,
-      autoClose: true,
-      duration: 3000,
-    });
-
+    addAlert({ type: TipoAlerta.SUCCESS, title: TituloAlerta.SUCCESS, message: mensajeAlerta, autoClose: true, duration: 3000 });
     setLoading(true);
-
     const filtrosConPaginacion = {
       denominacion: valoresFiltros.denominacion,
       codigoProveedor: valoresFiltros.codigoProveedor,
@@ -377,12 +312,10 @@ export default function ConsultarProductos() {
       conStock: valoresFiltros.conStock,
       codReferenciaExacto: valoresFiltros.codReferenciaExacto,
       codProveedorExacto: valoresFiltros.codProveedorExacto,
-      skip: skip,
-      take: take,
+      skip,
+      take,
     };
-
     const productosFiltrados = await ProductoService.obtener(filtrosConPaginacion);
-
     setEntidadesTotales(productosFiltrados.total);
     setProductos(productosFiltrados.data);
     setLoading(false);
@@ -390,27 +323,15 @@ export default function ConsultarProductos() {
 
   const handleActualizarSuccess = async (mensajeAlerta: string) => {
     closeModal();
-
-    addAlert({
-      type: TipoAlerta.SUCCESS,
-      title: TituloAlerta.SUCCESS,
-      message: mensajeAlerta,
-      autoClose: true,
-      duration: 3000,
-    });
-
+    addAlert({ type: TipoAlerta.SUCCESS, title: TituloAlerta.SUCCESS, message: mensajeAlerta, autoClose: true, duration: 3000 });
     setLoading(true);
-
     await handleBuscarProductos();
   };
 
   const handleBuscarProductos = async (botonBuscar?: boolean) => {
     setBusquedaRapida(false);
-    if (botonBuscar) {
-      resetearPaginacion();
-    }
+    if (botonBuscar) resetearPaginacion();
     setLoading(true);
-
     const filtrosConPaginacion = {
       denominacion: valoresFiltros.denominacion,
       codigoProveedor: valoresFiltros.codigoProveedor,
@@ -421,10 +342,9 @@ export default function ConsultarProductos() {
       marcaId: valoresFiltros.marcaId,
       proveedorId: valoresFiltros.proveedorId,
       conStock: valoresFiltros.conStock,
-      skip: skip,
-      take: take,
+      skip,
+      take,
     };
-
     const productosFiltrados = await ProductoService.obtener(filtrosConPaginacion);
     setProductos(productosFiltrados.data);
     setEntidadesTotales(productosFiltrados.total);
@@ -435,42 +355,24 @@ export default function ConsultarProductos() {
     setBusquedaRapida(true);
     if (botonBuscar) resetearPaginacion();
     setLoading(true);
-
     const productosFiltrados = exacto
       ? await ProductoService.obtenerRapido({ codigo, exacto, skip, take })
       : await ProductoService.buscarPorTexto({ texto: codigo, skip, take });
-
     setProductos(productosFiltrados.data);
     setEntidadesTotales(productosFiltrados.total);
     setLoading(false);
   };
 
-  // MANEJO DE PAGINACION ===========================================
-
   useEffect(() => {
-    if (filtrosInicializados === true) {
-      handleBuscarProductos();
-    }
+    if (filtrosInicializados === true) handleBuscarProductos();
   }, [paginaActual, filtrosInicializados, take]);
-
-  // MANEJO DE PAGINACION ===========================================
 
   const columns: Column<ConsultarProducto>[] = [
     {
-      header: "Cód.",
-      accessor: "codigoProveedor",
-      flex: 0.3,
-      type: "text",
-      align: "right",
-      editable: false,
-      scrollable: false,
+      header: "Cód.", accessor: "codigoProveedor", flex: 0.3, type: "text", align: "right", editable: false, scrollable: false,
     },
     {
-      header: "Denominación",
-      accessor: "denominacion",
-      flex: 2,
-      type: "text",
-      editable: false,
+      header: "Denominación", accessor: "denominacion", flex: 2, type: "text", editable: false,
       formatFunction: ({ value, row }) => (
         <div className="flex flex-col">
           <div
@@ -486,24 +388,16 @@ export default function ConsultarProductos() {
       scrollable: false,
     },
     {
-      header: "Precio", 
-      accessor:"precio",
-      flex:0.3,
-      type:"text", 
-      editable:false,
-      align:"left", 
+      header: "Precio", accessor: "precio", flex: 0.3, type: "text", editable: false, align: "left",
       formatFunction: ({ value }) => <span>${formatPrice(value)}</span>,
-    }
+    },
   ];
 
   return (
     <div className="w-full">
-      {/* Contenido Principal */}
       <div className="p-2">
-        {/* Tabla de productos - Header siempre visible */}
         <Card className="border-gray-200 dark:border-slate-700">
           <div className="hidden lg:block">
-            {/*  HEADER Desktop */}
             <ProductosHeader
               roles={getRoles()}
               codigo={codigo}
@@ -519,7 +413,6 @@ export default function ConsultarProductos() {
               onImprimirPagina={handleImprimirPagina}
             />
           </div>
-
           <div className="lg:hidden">
             <ProductosHeaderLg
               codigo={codigo}
@@ -542,45 +435,6 @@ export default function ConsultarProductos() {
               <div className="flex flex-col items-center justify-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
                 <p className="text-gray-600 dark:text-gray-400 text-lg">Cargando productos...</p>
-        ) : (
-          <>
-            {/* Tabla de productos */}
-            <Card className="border-gray-200 dark:border-slate-700">
-              <div className="hidden lg:block">
-              {/*  HEADER Desktop */}
-              <ProductosHeader
-                roles={getRoles()}
-                codigo={codigo}
-                exacto={exacto}
-                onChangeCodigo={setCodigo}
-                onChangeExacto={setExacto}
-                onBuscarRapido={() => handleBuscarProductosRapido(true)}
-                onNuevo={openModal}
-                onCambioPreciosMasivo={() => handleMostrarCambioPrecios()}
-                total={entidadesTotales}
-                mostrados={productos.length}
-                paginaActual={paginaActual}
-                onImprimirTodo={handleImprimirTodo}
-                onImprimirPagina={handleImprimirPagina}
-              />
-              </div>
-
-              <div className="lg:hidden">
-                <ProductosHeaderLg
-                codigo={codigo}
-                exacto={exacto}
-                roles={getRoles()}
-                onChangeCodigo={setCodigo}
-                onChangeExacto={setExacto}
-                onBuscarRapido={() => handleBuscarProductosRapido(true)}
-                onNuevo={openModal}
-                onCambioPreciosMasivo={() => handleMostrarCambioPrecios()}
-                total={entidadesTotales}
-                mostrados={productos.length}
-                paginaActual={paginaActual}
-                onImprimirTodo={handleImprimirTodo}
-                onImprimirPagina={handleImprimirPagina}
-              />
               </div>
             ) : error ? (
               <div className="flex flex-col items-center justify-center py-12">
@@ -599,7 +453,6 @@ export default function ConsultarProductos() {
                   onInfo={handleMostrarInfo}
                   onDelete={handleDelete}
                 />
-
                 <div className="lg:hidden space-y-3">
                   {productos.map((producto) => (
                     <DatosCard
@@ -620,20 +473,13 @@ export default function ConsultarProductos() {
           </CardContent>
         </Card>
 
-        {/* Paginación */}
         <div className="mt-6">
-          <Paginacion
-            entidadesTotales={entidadesTotales}
-            take={take}
-            paginaActual={paginaActual}
-            onChange={handlePageChange}
-          />
+          <Paginacion entidadesTotales={entidadesTotales} take={take} paginaActual={paginaActual} onChange={handlePageChange} />
         </div>
         <Alertas alerts={alerts} onRemove={removeAlert} />
         <AlertasConfirmacion />
       </div>
 
-     {/* ================= MODALES ================= */}
       <ProductosModales
         isAltaOpen={isModalOpen}
         mostrarActualizarProducto={mostrarActualizarProducto}
@@ -643,11 +489,9 @@ export default function ConsultarProductos() {
         mostrarCambioPrecios={mostrarCambioPrecios}
         mostrarProductosAlternativos={mostrarProductosAlternativos}
         mostrarDeQuienEsAlternativo={mostrarDeQuienEsAlternativo}
-
         productoSeleccionado={productoSeleccionado}
         productoInfo={productoInfo}
         auditoria={auditoria}
-
         onCloseAlta={closeModal}
         onCloseActualizar={handleCerrarActualizarProducto}
         onCloseAuditoria={handleCerrarInfo}
@@ -656,13 +500,11 @@ export default function ConsultarProductos() {
         onCloseCambioPrecios={handleCerrarCambioPrecios}
         onCloseProductosAlternativos={handleCerrarProductosAlternativos}
         onCloseDeQuienEsAlternativo={handleCerrarDeQuienEsAlternativo}
-
         onSuccessAlta={handleSuccess}
         onSuccessActualizar={handleActualizarSuccess}
         onSuccessCambioPrecios={handleSuccessCambioPrecios}
         onRefetch={handleBuscarProductos}
       />
-
 
       {productoNotificacionSeleccionado && (
         <NotificacionModal
@@ -675,9 +517,6 @@ export default function ConsultarProductos() {
           }}
         />
       )}
-      {/* =========================================== */}
-
-
     </div>
   );
 }
