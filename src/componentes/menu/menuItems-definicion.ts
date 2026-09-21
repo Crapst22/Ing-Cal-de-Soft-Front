@@ -7,7 +7,6 @@ import {
   FileText,
   ClipboardList,
   PackageCheck,
-  Package,
   Upload,
   Warehouse,
   PackageMinus,
@@ -72,7 +71,6 @@ export const menuItems: MenuItem[] = [
         subMenu: [
           { icon: Tag, label: "Marca", path: "marca" },
           { icon: Layers, label: "Líneas", path: "linea" },
-          { icon: Package, label: "Presentaciones", path: "presentacion" },
         ],
         roles: [Rol.ADMINISTRADOR, Rol.ROOT],
       },

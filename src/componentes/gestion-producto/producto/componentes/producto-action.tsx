@@ -2,14 +2,11 @@ import { Info, Pencil, Trash } from "lucide-react";
 import type { ConsultarProducto } from "../../../../interfaces/gestion-producto/producto/interfaces-producto";
 import { ActionButton } from "../../../herramientas/reutilizables/action-button";
 
-
 interface Props {
   producto: ConsultarProducto;
-
   onEditar: (id: number) => void;
   onInfo: (id: number) => void;
   onDelete: (id: number) => void;
-
   compact?: boolean;
 }
 
@@ -18,7 +15,6 @@ export function ProductoActions({
   onEditar,
   onInfo,
   onDelete,
- 
   compact = false,
 }: Props) {
   return (
@@ -28,26 +24,57 @@ export function ProductoActions({
         title="Ver información"
         onClick={() => onInfo(producto.id)}
       >
-        <Info size={16} />
+        <Info className="h-4 w-4" />
       </ActionButton>
 
       <ActionButton
-        variant="edit"
+        variant="primary"
         title="Editar producto"
         onClick={() => onEditar(producto.id)}
       >
-        <Pencil size={16} />
-      </ActionButton>
-      
-      <ActionButton 
-      variant="delete"
-      title="Eliminar producto"
-      onClick={() => onDelete(producto.id)}
-      >
-      <Trash size={16} />
+        <Pencil className="h-4 w-4" />
       </ActionButton>
 
-     
+      <ActionButton
+        variant="danger"
+        title="Eliminar producto"
+        onClick={() => onDelete(producto.id)}
+      >
+        <Trash className="h-4 w-4" />
+      </ActionButton>
+
+      <ActionButton
+        variant="secondary"
+        title="Etiquetas"
+        onClick={() => onInfo(producto.id)}
+      >
+        <Tag className="h-4 w-4" />
+      </ActionButton>
+
+      <ActionButton
+        variant="secondary"
+        title="Capas"
+        onClick={() => onInfo(producto.id)}
+      >
+        <Layers className="h-4 w-4" />
+      </ActionButton>
+
+      <ActionButton
+        variant="secondary"
+        title="Historial"
+        onClick={() => onInfo(producto.id)}
+      >
+        <History className="h-4 w-4" />
+      </ActionButton>
+
+      <ActionButton
+        variant="secondary"
+        title="Notificaciones"
+        onClick={() => onInfo(producto.id)}
+      >
+        <Bell className="h-4 w-4" />
+      </ActionButton>
     </div>
   );
 }
+
