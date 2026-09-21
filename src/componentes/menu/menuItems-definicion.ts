@@ -1,7 +1,7 @@
 import {
   Layers,
   ShoppingBag,
-  Tag,
+  Tag as TagIcon,
   Users,
   ShoppingCart,
   FileText,
@@ -44,9 +44,6 @@ export const menuItems: MenuItem[] = [
     //roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR]
   },
 
-
-
-
   {
     icon: ShoppingBag,
     label: "Gestión Productos",
@@ -69,7 +66,7 @@ export const menuItems: MenuItem[] = [
         label: "Configuración",
         path: "",
         subMenu: [
-          { icon: Tag, label: "Marca", path: "marca" },
+          { icon: TagIcon, label: "Marca", path: "marca" },
           { icon: Layers, label: "Líneas", path: "linea" },
         ],
         roles: [Rol.ADMINISTRADOR, Rol.ROOT],
@@ -78,8 +75,6 @@ export const menuItems: MenuItem[] = [
     roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.REPOSITOR, Rol.ROOT],
   },
 
-
-  
   {
     icon: Building,
     label: "Organización",
@@ -89,12 +84,11 @@ export const menuItems: MenuItem[] = [
         icon: Users,
         label: "Cliente",
         path: "cliente",
-        roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.COBRADOR,Rol.ROOT],
+        roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.COBRADOR, Rol.ROOT],
       },
-      { icon: Users, label: "Proveedor", path: "proveedor", roles: [Rol.ADMINISTRADOR,Rol.ROOT] },
-      { icon: Users, label: "Personal", path: "personal", visibleOnMobile: false, roles: [Rol.ADMINISTRADOR,Rol.ROOT] },
+      { icon: Users, label: "Proveedor", path: "proveedor", roles: [Rol.ADMINISTRADOR, Rol.ROOT] },
+      { icon: Users, label: "Personal", path: "personal", visibleOnMobile: false, roles: [Rol.ADMINISTRADOR, Rol.ROOT] },
     ],
-    roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.COBRADOR,Rol.ROOT], //acá aparece el rol permitido
+    roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.COBRADOR, Rol.ROOT], //acá aparece el rol permitido
   },
-
 ];
