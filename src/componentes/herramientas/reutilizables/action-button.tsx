@@ -2,7 +2,7 @@ import { Info, Pencil, Trash } from "lucide-react";
 import { Button } from "../../ui/Button";
 import { JSX, ReactNode } from "react";
 
-type ActionVariant = "info" | "edit" | "delete";
+type ActionVariant = "info" | "edit" | "delete" | "primary" | "danger" | "secondary";
 
 interface ActionButtonProps {
   variant: ActionVariant;
@@ -12,10 +12,7 @@ interface ActionButtonProps {
   children: ReactNode;
 }
 
-const variantConfig: Record<
-  ActionVariant,
-  { className: string; icon: JSX.Element }
-> = {
+const variantConfig: Record<ActionVariant, { className: string; icon: JSX.Element }> = {
   info: {
     className: "bg-blue-500 hover:bg-blue-600 text-white",
     icon: <Info size={16} />,
@@ -28,6 +25,18 @@ const variantConfig: Record<
     className: "bg-red-500 hover:bg-red-600 text-white",
     icon: <Trash size={16} />,
   },
+  primary: {
+    className: "bg-green-500 hover:bg-green-600 text-white",
+    icon: <Pencil size={16} />,
+  },
+  danger: {
+    className: "bg-red-500 hover:bg-red-600 text-white",
+    icon: <Trash size={16} />,
+  },
+  secondary: {
+    className: "bg-gray-500 hover:bg-gray-600 text-white",
+    icon: <Info size={16} />,
+  },
 };
 
 export function ActionButton({
@@ -37,7 +46,7 @@ export function ActionButton({
   title,
   children,
 }: ActionButtonProps) {
-  const { className, icon } = variantConfig[variant];
+  const { className } = variantConfig[variant];
 
   return (
     <Button
