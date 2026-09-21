@@ -160,5 +160,5 @@ export function ProductosHeader({
     </CardHeader>
   );
 }
-}
+
 
