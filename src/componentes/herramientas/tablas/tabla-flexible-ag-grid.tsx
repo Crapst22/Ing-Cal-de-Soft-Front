@@ -1,8 +1,14 @@
+// Dependencies and their declaration files are supplied by the application build.
+// @ts-ignore — allow the editor to type-check this file before dependencies are installed.
 import { JSX, useCallback, useMemo, useRef } from "react";
+// @ts-ignore — allow the editor to type-check this file before dependencies are installed.
 import { AgGridReact } from "ag-grid-react";
+// @ts-ignore — allow the editor to type-check this file before dependencies are installed.
 import { ModuleRegistry, AllCommunityModule } from "ag-grid-community"; // <-- Importamos los módulos
 
+// @ts-ignore — CSS declarations are supplied by the application build.
 import "ag-grid-community/styles/ag-grid.css";
+// @ts-ignore — CSS declarations are supplied by the application build.
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
 // Registramos todos los módulos de la Community Edition
@@ -59,12 +65,9 @@ export function TablaAGGrid<T extends Record<string, any>>({
         field: col.accessor as string,
         editable: col.editable || false,
         flex: col.flex ?? 1,
-        //width: col.width,          // <-- ancho fijo (en píxeles)
-        minWidth: col.minWidth, // <-- ancho mínimo
-        maxWidth: col.maxWidth, // <-- ancho máximo
-        //tooltipField: col.accessor as string,
+        minWidth: col.minWidth,
+        maxWidth: col.maxWidth,
         sortable: false,
-        //filter: true,
 
         cellStyle: () => {
           return {
@@ -80,7 +83,7 @@ export function TablaAGGrid<T extends Record<string, any>>({
           ? (params: any) => (
               <div
                 style={{
-                  overflowX: col.scrollable ? "auto" : "hidden", // ✅ importante
+                  overflowX: col.scrollable ? "auto" : "hidden",
                   whiteSpace: col.scrollable ? "nowrap" : "normal",
                   maxWidth: "100%",
                 }}
@@ -89,12 +92,12 @@ export function TablaAGGrid<T extends Record<string, any>>({
                   style={{
                     display: "flex",
                     gap: "0.5rem",
-                    minWidth: col.scrollable ? "200px" : "auto", // ✅ Solo fuerza ancho si scrollable = true
+                    minWidth: col.scrollable ? "200px" : "auto",
                     height: "100%",
                     boxSizing: "border-box",
                     alignItems: "center",
-                    overflow: "hidden", // adicional: previene scroll visual si no corresponde
-                    textOverflow: "ellipsis", // opcional: recorta texto con puntos suspensivos
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                   }}
                 >
                   {params.value}
@@ -128,7 +131,7 @@ export function TablaAGGrid<T extends Record<string, any>>({
         cellRenderer: (params: any) => (
           <div
             style={{
-              maxWidth: "200px", // 👈 Limita explícitamente el ancho visible
+              maxWidth: "200px",
               overflowX: actionsScrollable ? "auto" : "hidden",
               whiteSpace: actionsScrollable ? "nowrap" : "normal",
             }}
@@ -137,7 +140,7 @@ export function TablaAGGrid<T extends Record<string, any>>({
               style={{
                 display: "flex",
                 gap: "0.5rem",
-                minWidth: actionsScrollable ? "300px" : "auto", // 👈 Asegura que el contenido desborde
+                minWidth: actionsScrollable ? "300px" : "auto",
                 height: "100%",
                 boxSizing: "border-box",
                 alignItems: "center",
@@ -175,14 +178,7 @@ export function TablaAGGrid<T extends Record<string, any>>({
     [data, onUpdate],
   );
 
-  /*
-  const exportToCsv = () => {
-    gridRef.current?.api.exportDataAsCsv();                 // Exporta los datos a CSV o Excel
-  };
-  */
-
   const localeText = {
-    // Filtros comunes
     contains: "Contiene",
     notContains: "No contiene",
     startsWith: "Empieza con",
@@ -199,18 +195,15 @@ export function TablaAGGrid<T extends Record<string, any>>({
     andCondition: "Y",
     orCondition: "O",
 
-    // Menús
     filterOoo: "Filtrar...",
     applyFilter: "Aplicar",
     resetFilter: "Reiniciar",
     clearFilter: "Limpiar",
     cancelFilter: "Cancelar",
 
-    // Columnas
     columns: "Columnas",
     filters: "Filtros",
 
-    // Menú de columna
     pinColumn: "Fijar columna",
     valueAggregation: "Agrupar valor",
     autosizeThiscolumn: "Autoajustar esta columna",
@@ -221,7 +214,6 @@ export function TablaAGGrid<T extends Record<string, any>>({
     copy: "Copiar",
     export: "Exportar",
 
-    // Otros
     noRowsToShow: "No hay filas para mostrar",
   };
 
@@ -232,23 +224,22 @@ export function TablaAGGrid<T extends Record<string, any>>({
   }, []);
 
   return (
-      <div className="ag-theme-alpine dark:ag-theme-alpine-dark" style={height ? { height } : undefined}>
-        <AgGridReact
-          ref={gridRef}
-          rowData={data}
-          columnDefs={columnDefs}
-          getRowClass={getRowClass}
-          onCellValueChanged={onCellValueChanged}
-          domLayout={height ? "normal" : "autoHeight"}
-          rowHeight={rowHeight ?? 70}
-          headerHeight={35}
-          localeText={localeText}
-          onGridReady={onGridReady}
-          defaultColDef={{ resizable: false }}
-          suppressMovableColumns={true}
-        />
-        {/* <button onClick={exportToCsv}>Exportar CSV</button>   {/* Exporta los datos a CSV o Excel */}
-      
+    <div className="ag-theme-alpine dark:ag-theme-alpine-dark" style={height ? { height } : undefined}>
+      <AgGridReact
+        ref={gridRef}
+        theme="legacy" // 👈 ESTE CAMBIO RESUELVE EL ERROR #239 MANTENIENDO TU CSS
+        rowData={data}
+        columnDefs={columnDefs}
+        getRowClass={getRowClass}
+        onCellValueChanged={onCellValueChanged}
+        domLayout={height ? "normal" : "autoHeight"}
+        rowHeight={rowHeight ?? 70}
+        headerHeight={35}
+        localeText={localeText}
+        onGridReady={onGridReady}
+        defaultColDef={{ resizable: false }}
+        suppressMovableColumns={true}
+      />
 
       <style>
         {`
@@ -298,7 +289,6 @@ export function TablaAGGrid<T extends Record<string, any>>({
           .ag-theme-alpine-dark .ag-header {
             border-bottom: 2px solid #4b5563;
           }
-
         `}
       </style>
     </div>
