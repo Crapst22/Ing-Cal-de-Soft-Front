@@ -8,6 +8,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useState, useEffect } from "react";
 import axiosConfig from "../utils/axiosConfig";
+import logo from "../assets/imagenes/Logo.png";
 
 import { APP_CONFIG } from "../config/versionamiento";
 
@@ -151,12 +152,12 @@ export function Navbar({ className }: NavbarProps) {
           {/* Logo y Branding - Siempre visible */}
           <div className="flex items-center space-x-2 flex-shrink-0">
             <img
-              src="/JSFenix.png"
+              src={logo}
               alt="Logo"
               className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 rounded-full object-contain"
             />
             <div className="hidden sm:inline">
-              <h1 className="text-sm sm:text-base md:text-lg font-bold leading-tight">(Nombre de tu Equipo)</h1>
+              <h1 className="text-sm sm:text-base md:text-lg font-bold leading-tight">Grupo 10</h1>
               <p className="text-xs text-gray-300 leading-tight">{APP_CONFIG.nombreSistema} {APP_CONFIG.version}</p>
             </div>
           </div>
