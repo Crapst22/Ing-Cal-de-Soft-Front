@@ -53,7 +53,7 @@ const LoginPage: React.FC<LoginPageProps> = () => {
 
               <div className="space-y-4">
                 <h1 className="text-4xl lg:text-5xl font-bold leading-tight text-principalDark">
-                  Bienvenido a <span className="text-principal">NOMBRE AQUI</span>
+                  Bienvenido a <span className="text-principal">Proyecto 1</span>
                 </h1>
                 <p className="text-lg text-onSurface/80 leading-relaxed">
                   Accede a tu cuenta para gestionar inventario, consultar datos y administrar tu negocio de manera
@@ -170,7 +170,7 @@ const LoginPage: React.FC<LoginPageProps> = () => {
           </div>
 
           <div className="border-t border-darkText/30 mt-8 pt-8 text-center text-darkText/70">
-            <p>&copy; 2025 Proyecto 1. Todos los derechos reservados.</p>
+            <p>&copy; 2026 Proyecto 1. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>

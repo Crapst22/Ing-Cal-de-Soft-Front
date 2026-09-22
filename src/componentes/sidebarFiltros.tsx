@@ -1776,7 +1776,7 @@ export function SidebarFiltros({ isOpen, onClose, onOpen }: Omit<SidebarProps, "
               {/* Footer fijo */}
               <div className="flex-shrink-0 p-4 border-t border-slate-700">
                 <div className="text-center">
-                  <p className="text-xs text-gray-500">© 2025</p>
+                  <p className="text-xs text-gray-500">© 2026</p>
                 </div>
               </div>
             </div>
