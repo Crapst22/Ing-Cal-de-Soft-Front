@@ -12,6 +12,7 @@ import CantidadesInput from "../../../herramientas/formateo-de-campos/cantidades
 import { Producto } from "../../../../interfaces/gestion-producto/producto/interfaces-producto";
 import { SelectPresentacion } from "../../../../interfaces/gestion-producto/presentacion/interfaces-presentacion";
 import { SelectMarca } from "../../../../interfaces/gestion-producto/marca/interfaces-marca";
+import { componerDenominacion } from "../domain/denominacion-producto";
 import { Linea, SelectLinea } from "../../../../interfaces/gestion-producto/linea/interfaces-linea";
 import { AlicuotaIva, ResponsePost } from "../../../../interfaces/generales/interfaces-generales";
 import Select from "react-select";
@@ -206,13 +207,7 @@ export default function RegistrarActualizarProductoForm({
     const l = linea ?? selectedLinea;
     const p = presentacion ?? selectedPresentacion;
 
-    const partes = [m?.denominacion, l?.denominacion, p?.denominacion];
-    const nuevo = partes
-      .filter(Boolean)
-      .join(" ")
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, " ");
+    const nuevo = componerDenominacion(m, l, p);
 
     if (nuevo) {
       setValue("denominacion", nuevo, { shouldValidate: true });
