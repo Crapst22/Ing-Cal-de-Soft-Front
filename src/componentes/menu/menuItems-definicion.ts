@@ -10,6 +10,7 @@ import {
   Upload,
   Warehouse,
   PackageMinus,
+  PackageOpen,
   DollarSign,
   MapPin,
   Building,
@@ -68,6 +69,7 @@ export const menuItems: MenuItem[] = [
         subMenu: [
           { icon: TagIcon, label: "Marca", path: "marca" },
           { icon: Layers, label: "Líneas", path: "linea" },
+          { icon: PackageOpen, label: "Presentaciones", path: "presentacion" },
         ],
         roles: [Rol.ADMINISTRADOR, Rol.ROOT],
       },

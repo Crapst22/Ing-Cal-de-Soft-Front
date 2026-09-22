@@ -31,6 +31,7 @@ import PresentacionesSelector from "../componentes/configuracion/presentacion-se
 import { getUsuarioId } from "../../../../utils/auth";
 import RegistrarActualizarLineaForm from "../../linea/utils/registrar-actualizar-linea";
 import RegistrarActualizarPresentacionForm from "../../presentacion/utils/registrar-actualizar-presentacion";
+import PresentacionService from "../../presentacion/services/presentacion-service";
 import PorcentajeInput from "../../../herramientas/formateo-de-campos/porcentaje-input";
 
 
@@ -286,7 +287,7 @@ export default function RegistrarActualizarProductoForm({
         }
       }
       if (select === "PRESENTACION") {
-        const presentaciones = await ProductoService.obtenerTotales({ denominacion: denominacionPresentacion }, "presentaciones");
+        const presentaciones = await PresentacionService.obtenerTotales({ denominacion: denominacionPresentacion }, "presentaciones");
         if (presentaciones) {
           console.log("Presentaciones encontradas:", presentaciones);
           setPresentaciones(presentaciones.data);
