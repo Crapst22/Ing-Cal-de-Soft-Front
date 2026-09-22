@@ -1,15 +1,13 @@
 import { useRef, useState } from "react";
-import { Package, PlusCircle, Search } from "lucide-react";
 import { Package, PlusCircle, Search, TrendingUp } from "lucide-react";
 import { Button } from "../../../ui/Button";
 import { CardHeader, CardTitle } from "../../../ui/Card";
 import { Input } from "../../../ui/Input";
 import { EstadisticasSimples } from "../../../herramientas/reutilizables/estadisticas-simples";
 import { ImpresionForm } from "../../../herramientas/reutilizables/impresion-form";
-import { puedeAgregarProducto } from "../domain/permisos-producto";
+import { puedeAgregarProducto, puedeActualizarPreciosMasivo } from "../domain/permisos-producto";
 import ProductoService from "../services/producto-service";
 import { ConsultarProducto } from "../../../../interfaces/gestion-producto/producto/interfaces-producto";
-import { puedeAgregarProducto, puedeActualizarPreciosMasivo } from "../domain/permisos-producto";
 
 interface Props {
   roles: number[];
