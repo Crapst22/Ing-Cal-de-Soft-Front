@@ -23,6 +23,7 @@ import {
   Smartphone,
   Bell,
   TrendingUp,
+  Boxes,
 } from "lucide-react";
 import { Rol } from "../../interfaces/generales/interfaces-generales";
 
@@ -69,6 +70,7 @@ export const menuItems: MenuItem[] = [
         subMenu: [
           { icon: TagIcon, label: "Marca", path: "marca" },
           { icon: Layers, label: "Líneas", path: "linea" },
+          { icon: Boxes, label: "Superlínea", path: "superlinea" },
           { icon: PackageOpen, label: "Presentaciones", path: "presentacion" },
         ],
         roles: [Rol.ADMINISTRADOR, Rol.ROOT],

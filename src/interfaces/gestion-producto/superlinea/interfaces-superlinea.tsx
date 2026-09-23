@@ -1,3 +1,5 @@
+import { SelectLinea } from "../linea/interfaces-linea";
+
 export interface Superlinea {
   id: number;
   denominacion: string;
@@ -9,6 +11,7 @@ export interface Superlinea {
   usuarioDeletedId: number;
   usuarioUpdatedId: number;
   sistema: number;
+  lineas?: SelectLinea[];
 }
 
 export interface SelectSuperlinea {
