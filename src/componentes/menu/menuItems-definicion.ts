@@ -22,6 +22,7 @@ import {
   Smartphone,
   Bell,
   MessageSquare,
+  History,
 } from "lucide-react";
 import { Rol } from "../../interfaces/generales/interfaces-generales";
 
@@ -56,6 +57,12 @@ export const menuItems: MenuItem[] = [
         icon: ShoppingBag,
         label: "Producto",
         path: "producto",
+        roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.REPOSITOR,Rol.ROOT],
+      },
+      {
+        icon: History,
+        label: "Historial de Precios",
+        path: "historial-precios",
         roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.REPOSITOR,Rol.ROOT],
       },
       {
