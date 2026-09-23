@@ -22,6 +22,7 @@ import DashboardHome from "./pages/dashboard-home";
 
 import ListaPrecios from "./componentes/gestion-producto/precios/lista_precios/util/lista-precios";
 import ConsultarPersonal from "./componentes/gestion-organizacion/personal/utils/consultar-personal";
+import ConsultarHistorialPrecios from "./componentes/gestion-producto/precios/historial-precios/util/consultar-historial-precios";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
               <Route path="proveedor" element={<ConsultarProveedores />} />
               <Route path="personal" element={<ConsultarPersonal />} />
               <Route path="cambio-precios-masivo" element={<CambioPreciosMasivo />} />
+              <Route path="historial-precios" element={<ConsultarHistorialPrecios />} />
               <Route path="lista-precios" element={<ListaPrecios />} />
               <Route path="localidad" element={<ConsultarLocalidad />} />
               <Route path="condicion-iva" element={<CondicionIva />} />     

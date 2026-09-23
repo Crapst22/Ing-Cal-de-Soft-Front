@@ -22,6 +22,8 @@ import {
   Home,
   Smartphone,
   Bell,
+  MessageSquare,
+  History,
   TrendingUp,
   Boxes,
 } from "lucide-react";
@@ -62,6 +64,12 @@ export const menuItems: MenuItem[] = [
         label: "Cambio de Precios",
         path: "cambio-precios-masivo",
         roles: [Rol.ADMINISTRADOR, Rol.ROOT],
+      },
+      {
+        icon: History,
+        label: "Historial de Precios",
+        path: "historial-precios",
+        roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.REPOSITOR,Rol.ROOT],
       },
       {
         icon: DollarSign,
