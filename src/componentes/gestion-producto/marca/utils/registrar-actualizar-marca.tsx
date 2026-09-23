@@ -9,7 +9,7 @@ import {
   TituloAlertaConfirmacion,
   useConfirmation,
 } from "../../../herramientas/alertas/alertas-confirmacion";
-import { Tag } from "lucide-react";
+import { Tag as TagIcon } from "lucide-react";
 import EncabezadoFormularios from "../../../ui/encabezadoFormularios";
 import { useMarcaForm } from "../hooks/use-marca-form";
 
@@ -55,14 +55,14 @@ export default function RegistrarActualizarMarcaForm({
       <Card className="w-full max-w-2xl bg-white mx-auto shadow-lg rounded-2xl overflow-hidden transform transition-all duration-300 ease-in-out">
 
         <EncabezadoFormularios
-          title={marca ? `Actualizar ${NOMBRE_ENTIDAD}` : NOMBRE_ENTIDAD}
-          subtitle={
-            marca
-              ? "Sólo puede visualizarse, no modificarse."
-              : "Ingresa los datos."
-          }
-          icon={<Tag className="form-icon" />}
-          onClose={handleOnClose}
+            title={marca ? `Actualizar ${NOMBRE_ENTIDAD}` : NOMBRE_ENTIDAD}
+            subtitle={
+              marca
+                ? "Sólo puede visualizarse, no modificarse."
+                : "Ingresa los datos."
+            }
+            icon={<TagIcon className="form-icon" />}  
+            onClose={handleOnClose}
         />
 
         <FormProvider {...methods}>

@@ -13,6 +13,7 @@ export default function PresentacionesSelector(props: {
 
   disabled?: boolean;
   error?: string;
+  ocultarAgregar?: boolean;
 
   onEnterPresentacion: (e: React.KeyboardEvent) => void;
   onChangePresentacion: (p: SelectPresentacion | null) => void;
@@ -30,6 +31,7 @@ export default function PresentacionesSelector(props: {
       selectRef={props.selectPresentacionRef}
       disabled={props.disabled}
       error={props.error}
+      ocultarAgregar={props.ocultarAgregar}
       onEnterInput={props.onEnterPresentacion}
       onChange={props.onChangePresentacion}
       onAgregar={props.onAgregarPresentacion}

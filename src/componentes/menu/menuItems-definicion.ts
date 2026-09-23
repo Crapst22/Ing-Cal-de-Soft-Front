@@ -1,7 +1,7 @@
 import {
   Layers,
   ShoppingBag,
-  Tag,
+  Tag as TagIcon,
   Users,
   ShoppingCart,
   FileText,
@@ -10,6 +10,7 @@ import {
   Upload,
   Warehouse,
   PackageMinus,
+  PackageOpen,
   DollarSign,
   MapPin,
   Building,
@@ -23,6 +24,8 @@ import {
   Bell,
   MessageSquare,
   History,
+  TrendingUp,
+  Boxes,
 } from "lucide-react";
 import { Rol } from "../../interfaces/generales/interfaces-generales";
 
@@ -45,9 +48,6 @@ export const menuItems: MenuItem[] = [
     //roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR]
   },
 
-
-
-
   {
     icon: ShoppingBag,
     label: "Gestión Productos",
@@ -57,7 +57,13 @@ export const menuItems: MenuItem[] = [
         icon: ShoppingBag,
         label: "Producto",
         path: "producto",
-        roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.REPOSITOR,Rol.ROOT],
+        roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.REPOSITOR, Rol.ROOT],
+      },
+      {
+        icon: TrendingUp,
+        label: "Cambio de Precios",
+        path: "cambio-precios-masivo",
+        roles: [Rol.ADMINISTRADOR, Rol.ROOT],
       },
       {
         icon: History,
@@ -70,16 +76,17 @@ export const menuItems: MenuItem[] = [
         label: "Configuración",
         path: "",
         subMenu: [
-          { icon: Tag, label: "Marca", path: "marca" },
+          { icon: TagIcon, label: "Marca", path: "marca" },
           { icon: Layers, label: "Líneas", path: "linea" },
+          { icon: Boxes, label: "Superlínea", path: "superlinea" },
+          { icon: PackageOpen, label: "Presentaciones", path: "presentacion" },
         ],
-        roles: [Rol.ADMINISTRADOR,Rol.ROOT,Rol.ROOT],
+        roles: [Rol.ADMINISTRADOR, Rol.ROOT],
       },
     ],
-    roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.REPOSITOR,Rol.ROOT],
+    roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.REPOSITOR, Rol.ROOT],
   },
 
-  
   {
     icon: Building,
     label: "Organización",
@@ -89,12 +96,11 @@ export const menuItems: MenuItem[] = [
         icon: Users,
         label: "Cliente",
         path: "cliente",
-        roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.COBRADOR,Rol.ROOT],
+        roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.COBRADOR, Rol.ROOT],
       },
-      { icon: Users, label: "Proveedor", path: "proveedor", roles: [Rol.ADMINISTRADOR,Rol.ROOT] },
-      { icon: Users, label: "Personal", path: "personal", visibleOnMobile: false, roles: [Rol.ADMINISTRADOR,Rol.ROOT] },
+      { icon: Users, label: "Proveedor", path: "proveedor", roles: [Rol.ADMINISTRADOR, Rol.ROOT] },
+      { icon: Users, label: "Personal", path: "personal", visibleOnMobile: false, roles: [Rol.ADMINISTRADOR, Rol.ROOT] },
     ],
-    roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.COBRADOR,Rol.ROOT], //acá aparece el rol permitido
+    roles: [Rol.ADMINISTRADOR, Rol.VENDEDOR, Rol.REPARTIDOR, Rol.COBRADOR, Rol.ROOT], //acá aparece el rol permitido
   },
-
 ];

@@ -13,7 +13,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <img src={logo} alt="Proyecto 1" className="h-12 w-auto" />
-            <span className="text-xl font-bold tracking-wide">NOMBRE AQUI</span>
+            <span className="text-xl font-bold tracking-wide">Proyecto 1</span>
              <p className="text-xs text-gray-300 leading-tight">{APP_CONFIG.nombreSistema} {APP_CONFIG.version}</p>
           </div>
           <nav className="hidden md:flex space-x-6 font-medium">
@@ -44,7 +44,7 @@ export default function HomePage() {
         <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center px-4">
           <div className="space-y-6">
             <h1 className="text-5xl font-bold leading-tight">
-              Detalle de la empresa <span className="text-principal">Rubro</span>
+              Sistema de Gestión de Productos e Inventario<span className="text-principal">Rubro</span>
             </h1>
             <p className="text-lg opacity-80">
               Empecemos el camino ...
@@ -138,7 +138,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="bg-principalDark text-white py-8">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm">&copy; 2025 Proyecto 1. Todos los derechos reservados.</p>
+          <p className="text-sm">&copy; 2026 Proyecto 1. Todos los derechos reservados.</p>
           <Users className="h-5 w-5 opacity-70" />
         </div>
       </footer>

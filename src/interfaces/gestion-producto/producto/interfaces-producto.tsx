@@ -1,6 +1,7 @@
 import { SelectLinea } from "../linea/interfaces-linea";
 import { SelectMarca } from "../marca/interfaces-marca";
 import { SelectSublinea } from "../sublinea/interfaces-sublinea";
+import { SelectPresentacion } from "../presentacion/interfaces-presentacion";
 import { ItemProdAlternativo } from "./interfaces-item-prod-alternativo";
 import { ItemProveedor } from "./interfaces-item-proveedor";
 
@@ -18,15 +19,15 @@ export interface Producto {
   precio?: number | null;
   porcentaje?: number | null;
   //fechaCosto?: string | null;
- /*  costoEnDolar: boolean;
-  costoDolar?: number | null;
-  cotizacionDolar?: number | null;
-  fechaCostoDolar?: string | null;
-  precioConIva?: number | null;
-  fechaPrecio?: string | null;
-  fechaPrecioOferta?: string | null;
-  destacado?: boolean | null;
-  envioGratis?: boolean | null; */
+  /*  costoEnDolar: boolean;
+   costoDolar?: number | null;
+   cotizacionDolar?: number | null;
+   fechaCostoDolar?: string | null;
+   precioConIva?: number | null;
+   fechaPrecio?: string | null;
+   fechaPrecioOferta?: string | null;
+   destacado?: boolean | null;
+   envioGratis?: boolean | null; */
   observacion: string | null;
   createdAt: string | null;
   updatedAt: string | null;
@@ -36,6 +37,7 @@ export interface Producto {
   usuarioUpdatedId: number;
   linea: SelectLinea;
   marca: SelectMarca;
+  presentacion: SelectPresentacion | null;
   /* itemsAlternativo?: ItemProdAlternativo[] | null;
   poseeAlternativos: boolean;
   esAlternativo: boolean; */
@@ -45,24 +47,24 @@ export interface Producto {
   precioMayoristaConIva: number;
   precioClienteConIva: number;
   precioOfertaConIva: number;
-  presentacion: SelectPresentacion;
   itemsProveedor?: ItemProveedor[] | null;
  */
   stockMinimo: number;
   cantidadPorPack: number;
   utilizaStockMinimo: boolean;
   utilizaPack: boolean;
- // oferta: boolean;
- // cantidadOferta: number;
- /*  porcentajeOcasional: number;
-  porcentajeMayorista: number;
-  porcentajeCliente: number;
-  porcentajeOferta: number;
-  cantidadOferta: number;
-  precioOcasional: number;
-  precioMayorista: number;
-  precioCliente: number;
-  precioOferta: number; */
+  // oferta: boolean;
+  // cantidadOferta: number;
+  /*  porcentajeOcasional:
+   number;
+   porcentajeMayorista: number;
+   porcentajeCliente: number;
+   porcentajeOferta: number;
+   cantidadOferta: number;
+   precioOcasional: number;
+   precioMayorista: number;
+   precioCliente: number;
+   precioOferta: number; */
 }
 
 export interface ConsultarProducto {
@@ -86,13 +88,11 @@ export interface ConsultarProducto {
   precioOfertaConIva: number;
 }
 
-
 export interface ConsultarProductosCambioPreciosMasivo {
   id: number;
   denominacion: string;
   codigoProveedor: string;
   observacion: string;
-
   precioOcasionalConIva: number;
   precioOcasionalConIvaNuevo: number;
   precioMayoristaConIva: number;
@@ -101,9 +101,7 @@ export interface ConsultarProductosCambioPreciosMasivo {
   precioClienteConIvaNuevo: number;
   precioOfertaConIva: number;
   precioOfertaConIvaNuevo: number;
-
   dirty: boolean;
-
 }
 
 export interface ConsultarProductosListaPrecios {
@@ -116,11 +114,8 @@ export interface ConsultarProductosListaPrecios {
   precioMayoristaConIva: number;
   precioClienteConIva: number;
   precioOfertaConIva: number;
-
   dirty: boolean;
-
 }
-
 
 export interface SelectProdAlternativos {
   id: number;
@@ -177,19 +172,13 @@ export interface ProductoCombo {
   id: number;
   denominacion: string;
   precio: number;
-  cantidad: number; 
+  cantidad: number;
 }
 
 export const TipoProducto = {
   NACIONAL: 0,
   IMPORTADO: 1,
 };
-
-export interface SelectPresentacion {
-  id: number;
-  denominacion: string;
-}
-
 
 export const TipoPrecioN = {
   OCASIONAL: 0,
@@ -206,3 +195,17 @@ export const TipoPrecioS: Record<number, string> = {
   3: "OFERTA",
   4: "MANUAL",
 };
+
+export const TipoAumento = {
+  PORCENTAJE: 1,
+  MONTO_FIJO: 2,
+} as const;
+
+export type TipoAumentoType = (typeof TipoAumento)[keyof typeof TipoAumento];
+
+export interface ActualizarPreciosMasivoDto {
+  tipoAumento: number;
+  valor: number;
+  lineaId?: number | null;
+  usuarioId: number;
+}

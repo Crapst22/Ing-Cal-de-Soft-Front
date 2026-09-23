@@ -1,4 +1,4 @@
-import { DollarSign, PlusCircle, Filter, Tag } from "lucide-react";
+import { DollarSign, PlusCircle, Filter, Tag as TagIcon } from "lucide-react";
 import { Button } from "../../../ui/Button";
 import { CardHeader, CardTitle } from "../../../ui/Card";
 import { ImpresionForm } from "../../../herramientas/reutilizables/impresion-form";
@@ -26,33 +26,29 @@ export const Header = ({
       {/* Primera fila: Título y botón agregar */}
       <div className="flex items-center gap-6">
         <CardTitle className="flex items-center space-x-2">
-          <Tag className="consultar-icon w-5 h-5 sm:w-6 sm:h-6" />
+          <TagIcon className="consultar-icon w-5 h-5 sm:w-6 sm:h-6" />
           <span className="text-base sm:text-xl font-semibold">Marcas</span>
         </CardTitle>
 
         <EstadisticasSimples filtrados={entidadesTotales} mostrados={datosLength} />
       </div>
 
-
-     
-        {/* Botón de impresión */}
-        <div className="flex items-center gap-2">
-          <ImpresionForm
-            entityName="Marcas"
-            onImprimirTodo={handleImprimirTodo}
-            onImprimirPagina={handleImprimirPagina}
-            totalItems={entidadesTotales}
-            currentPage={paginaActual}
-          />
-          <Button
-            className="bg-blue-500 hover:bg-blue-700 text-white flex items-center gap-1.5 px-3 py-2 rounded-lg shadow-sm"
-            onClick={openModal}
-          >
-            <PlusCircle className="h-4 w-4" />
-
-          </Button>
-        </div>
-     
+      {/* Botón de impresión */}
+      <div className="flex items-center gap-2">
+        <ImpresionForm
+          entityName="Marcas"
+          onImprimirTodo={handleImprimirTodo}
+          onImprimirPagina={handleImprimirPagina}
+          totalItems={entidadesTotales}
+          currentPage={paginaActual}
+        />
+        <Button
+          className="bg-blue-500 hover:bg-blue-700 text-white flex items-center gap-1.5 px-3 py-2 rounded-lg shadow-sm"
+          onClick={openModal}
+        >
+          <PlusCircle className="h-4 w-4" />
+        </Button>
+      </div>
     </CardHeader>
   );
 };

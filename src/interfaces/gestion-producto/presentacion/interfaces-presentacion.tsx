@@ -1,13 +1,12 @@
 export interface Presentacion {
   id: number;
+  tipo: "volume" | "pack";
+  quantity: number | null;
+  volumen: number | null;
+  unidad: string | null;
   denominacion: string;
-  observacion: string | null;
-  createdAt: string;
-  updatedAt: string;
+  sistema: number;
   deletedAt: string | null;
-  usuarioCreatedId: number;
-  usuarioUpdatedId: number;
-  sistema: boolean;
 }
 
 
