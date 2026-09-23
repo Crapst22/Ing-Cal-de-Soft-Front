@@ -200,7 +200,7 @@ export default function ConsultarProductos() {
       message: "¿Estás seguro de que quieres eliminar este elemento? Esta acción no se puede deshacer.",
       confirmText: "Eliminar",
       cancelText: "Cancelar",
-      onConfirm: () => {},
+      onConfirm: () => { },
     });
     if (!confirmed) return;
 
@@ -277,11 +277,18 @@ export default function ConsultarProductos() {
   };
 
   const handleSuccessCambioPrecios = (mensaje: string) => {
-    addAlert({ type: TipoAlerta.SUCCESS, title: TituloAlerta.SUCCESS, message: mensaje, autoClose: true, duration: 4000 });
+    addAlert({
+      type: TipoAlerta.SUCCESS,
+      title: TituloAlerta.SUCCESS,
+      message: mensaje,
+      autoClose: true,
+      duration: 4000,
+    });
   };
 
   const handleCerrarProductosAlternativos = () => {
     setMostrarProductosAlternativos(false);
+
     setProductoInfo({} as Producto);
   };
 
@@ -388,12 +395,12 @@ export default function ConsultarProductos() {
       scrollable: false,
     },
     {
-      header: "Precio", 
-      accessor:"precio",
-      flex:0.3,
-      type:"text", 
-      editable:false,
-      align:"left", 
+      header: "Precio",
+      accessor: "precio",
+      flex: 0.3,
+      type: "text",
+      editable: false,
+      align: "left",
       formatFunction: ({ value }) => <span>${formatPrice(value)}</span>,
     },
   ];
@@ -411,6 +418,7 @@ export default function ConsultarProductos() {
               onChangeExacto={setExacto}
               onBuscarRapido={() => handleBuscarProductosRapido(true)}
               onNuevo={openModal}
+              onCambioPreciosMasivo={() => handleMostrarCambioPrecios()}
               total={entidadesTotales}
               mostrados={productos.length}
               paginaActual={paginaActual}
@@ -427,6 +435,7 @@ export default function ConsultarProductos() {
               onChangeExacto={setExacto}
               onBuscarRapido={() => handleBuscarProductosRapido(true)}
               onNuevo={openModal}
+              onCambioPreciosMasivo={() => handleMostrarCambioPrecios()}
               total={entidadesTotales}
               mostrados={productos.length}
               paginaActual={paginaActual}
@@ -510,6 +519,7 @@ export default function ConsultarProductos() {
         onSuccessCambioPrecios={handleSuccessCambioPrecios}
         onRefetch={handleBuscarProductos}
       />
+
 
       {productoNotificacionSeleccionado && (
         <NotificacionModal

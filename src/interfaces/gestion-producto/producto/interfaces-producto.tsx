@@ -19,15 +19,15 @@ export interface Producto {
   precio?: number | null;
   porcentaje?: number | null;
   //fechaCosto?: string | null;
- /*  costoEnDolar: boolean;
-  costoDolar?: number | null;
-  cotizacionDolar?: number | null;
-  fechaCostoDolar?: string | null;
-  precioConIva?: number | null;
-  fechaPrecio?: string | null;
-  fechaPrecioOferta?: string | null;
-  destacado?: boolean | null;
-  envioGratis?: boolean | null; */
+  /*  costoEnDolar: boolean;
+   costoDolar?: number | null;
+   cotizacionDolar?: number | null;
+   fechaCostoDolar?: string | null;
+   precioConIva?: number | null;
+   fechaPrecio?: string | null;
+   fechaPrecioOferta?: string | null;
+   destacado?: boolean | null;
+   envioGratis?: boolean | null; */
   observacion: string | null;
   createdAt: string | null;
   updatedAt: string | null;
@@ -53,18 +53,18 @@ export interface Producto {
   cantidadPorPack: number;
   utilizaStockMinimo: boolean;
   utilizaPack: boolean;
- // oferta: boolean;
- // cantidadOferta: number;
- /*  porcentajeOcasional:
-  number;
-  porcentajeMayorista: number;
-  porcentajeCliente: number;
-  porcentajeOferta: number;
-  cantidadOferta: number;
-  precioOcasional: number;
-  precioMayorista: number;
-  precioCliente: number;
-  precioOferta: number; */
+  // oferta: boolean;
+  // cantidadOferta: number;
+  /*  porcentajeOcasional:
+   number;
+   porcentajeMayorista: number;
+   porcentajeCliente: number;
+   porcentajeOferta: number;
+   cantidadOferta: number;
+   precioOcasional: number;
+   precioMayorista: number;
+   precioCliente: number;
+   precioOferta: number; */
 }
 
 export interface ConsultarProducto {
