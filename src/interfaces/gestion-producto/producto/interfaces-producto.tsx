@@ -208,4 +208,11 @@ export interface ActualizarPreciosMasivoDto {
   valor: number;
   lineaId?: number | null;
   usuarioId: number;
+  motivo?: string;
+}
+
+export interface ActualizarPreciosProductoDto {
+  precio: number;
+  usuarioId: number;
+  motivo: string;
 }

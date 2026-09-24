@@ -6,7 +6,10 @@ import { FormValues } from "../interfaces/interfaces-validaciones-item-prod-alte
 import ApiService from "../../../../utils/apiService";
 
 
-import { ActualizarPreciosMasivoDto } from "../../../../interfaces/gestion-producto/producto/interfaces-producto";
+import {
+  ActualizarPreciosMasivoDto,
+  ActualizarPreciosProductoDto,
+} from "../../../../interfaces/gestion-producto/producto/interfaces-producto";
 
 const apiUrl = axiosConfig.apiUrl;
 
@@ -52,7 +55,7 @@ const ProductoService = {
     }
   },
 
-  actualizarPreciosProducto: async (id: number, payload: any) => {
+  actualizarPreciosProducto: async (id: number, payload: ActualizarPreciosProductoDto) => {
     try {
       const token = localStorage.getItem("Token");
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
