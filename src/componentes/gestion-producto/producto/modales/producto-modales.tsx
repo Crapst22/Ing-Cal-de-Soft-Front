@@ -2,7 +2,6 @@ import { Producto } from "../../../../interfaces/gestion-producto/producto/inter
 import InformacionAuditoria from "../../../herramientas/reutilizables/informacion-auditoria";
 import RegistrarActualizarProductoForm from "../utils/registrar-actualizar-producto";
 import ActualizarPreciosMasivoModal from "./actualizar-precios-masivo-modal";
-import CambioPrecioModal from "./cambio-precio-modal";
 
 interface Props {
   isAltaOpen: boolean;
@@ -26,7 +25,7 @@ interface Props {
   onCloseDeQuienEsAlternativo: () => void;
   onSuccessAlta: (mensaje: string, producto?: Producto) => void;
   onSuccessActualizar: (mensaje: string) => void;
-  onSuccessCambioPrecios: (mensaje: string) => void;
+  onSuccessCambioPrecios?: (mensaje: string) => void;
   onRefetch: () => void;
 }
 
@@ -82,20 +81,14 @@ export function ProductosModales({
         </div>
       )}
 
-{mostrarCambioPrecios && productoInfo?.id && (
-        <CambioPrecioModal
-          producto={productoInfo as Producto}
-          onClose={onCloseCambioPrecios}
-          onSuccess={onSuccessCambioPrecios}
-        />
-      )}
-
-      {mostrarCambioPrecios && !productoInfo?.id && (
+      {mostrarCambioPrecios && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <ActualizarPreciosMasivoModal
             onClose={onCloseCambioPrecios}
             onSuccess={(mensaje) => {
-              onSuccessCambioPrecios(mensaje);
+              if (onSuccessCambioPrecios) {
+                onSuccessCambioPrecios(mensaje);
+              }
               onRefetch();
             }}
           />

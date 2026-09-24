@@ -276,6 +276,16 @@ export default function ConsultarProductos() {
     setProductoInfo({} as Producto);
   };
 
+  const handleSuccessCambioPrecios = (mensaje: string) => {
+    addAlert({
+      type: TipoAlerta.SUCCESS,
+      title: TituloAlerta.SUCCESS,
+      message: mensaje,
+      autoClose: true,
+      duration: 4000,
+    });
+  };
+
   const handleCerrarProductosAlternativos = () => {
     setMostrarProductosAlternativos(false);
 
@@ -322,23 +332,6 @@ export default function ConsultarProductos() {
     closeModal();
     addAlert({ type: TipoAlerta.SUCCESS, title: TituloAlerta.SUCCESS, message: mensajeAlerta, autoClose: true, duration: 3000 });
     setLoading(true);
-    await handleBuscarProductos();
-  };
-
-  const handleCambioPreciosSuccess = async (mensajeAlerta: string) => {
-    setMostrarCambioPrecios(false);
-    setProductoInfo({} as Producto);
-
-    addAlert({
-      type: TipoAlerta.SUCCESS,
-      title: TituloAlerta.SUCCESS,
-      message: mensajeAlerta,
-      autoClose: true,
-      duration: 3000,
-    });
-
-    setLoading(true);
-
     await handleBuscarProductos();
   };
 
@@ -523,7 +516,7 @@ export default function ConsultarProductos() {
         onCloseDeQuienEsAlternativo={handleCerrarDeQuienEsAlternativo}
         onSuccessAlta={handleSuccess}
         onSuccessActualizar={handleActualizarSuccess}
-        onSuccessCambioPrecios={handleCambioPreciosSuccess}
+        onSuccessCambioPrecios={handleSuccessCambioPrecios}
         onRefetch={handleBuscarProductos}
       />
 
