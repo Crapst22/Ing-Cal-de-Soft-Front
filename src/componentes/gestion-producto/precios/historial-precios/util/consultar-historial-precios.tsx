@@ -31,7 +31,6 @@ export default function ConsultarHistorialPrecios() {
         type: "text",
         editable: false,
         scrollable: false,
-        formatFunction: ({ value }) => <span>{value ? value : "-"}</span>,
       },
       {
         header: "Precio anterior",

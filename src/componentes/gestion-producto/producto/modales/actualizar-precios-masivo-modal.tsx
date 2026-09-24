@@ -35,7 +35,6 @@ export default function ActualizarPreciosMasivoModal({
   const [lineaSeleccionada, setLineaSeleccionada] = useState<SelectLinea | null>(null);
   const [tipoAumento, setTipoAumento] = useState<number>(TipoAumento.PORCENTAJE);
   const [valor, setValor] = useState<string>("");
-  const [motivo, setMotivo] = useState<string>("");
 
   // Estados de control
   const [cargandoLineas, setCargandoLineas] = useState<boolean>(false);
@@ -121,7 +120,6 @@ export default function ActualizarPreciosMasivoModal({
         valor: valorNum,
         lineaId: esGlobal ? null : (lineaSeleccionada?.id ?? null),
         usuarioId,
-        motivo: motivo.trim() || undefined,
       };
 
       const response = await ProductoService.actualizarPreciosMasivo(payload);
@@ -286,25 +284,6 @@ export default function ActualizarPreciosMasivoModal({
                 {tipoAumento === TipoAumento.PORCENTAJE
                   ? "Ingrese el porcentaje que se sumará a los precios base de los productos."
                   : "Ingrese el monto fijo en pesos que se sumará a los precios base."}
-              </p>
-            </div>
-
-            {/* Input de Motivo */}
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 block">
-                Motivo <span className="text-gray-400 dark:text-gray-500 font-normal">(opcional)</span>
-              </label>
-              <textarea
-                value={motivo}
-                onChange={(e) => setMotivo(e.target.value)}
-                placeholder="Ej: Aumento por inflación, actualización de costos, etc."
-                rows={3}
-                maxLength={500}
-                disabled={isSubmitting}
-                className="w-full h-11 min-h-[80px] rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-              />
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                Este motivo quedará registrado en el historial de precios de cada producto afectado.
               </p>
             </div>
 
