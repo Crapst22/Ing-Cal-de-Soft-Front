@@ -23,7 +23,10 @@ const schema = yup.object().shape({
     .typeError("El precio nuevo debe ser un número válido.")
     .positive("El precio nuevo debe ser mayor a 0.")
     .required("El precio nuevo es obligatorio."),
-  motivo: yup.string().optional(),
+  motivo: yup
+    .string()
+    .trim()
+    .required("El motivo es obligatorio."),
 });
 
 export default function CambioPrecioModal({
@@ -46,6 +49,8 @@ export default function CambioPrecioModal({
   const { handleSubmit, setValue, setError, watch } = methods;
 
   const nuevoPrecio = watch("nuevoPrecio");
+  const motivo = watch("motivo");
+  const motivoValido = !!motivo && motivo.trim().length > 0;
 
   useEffect(() => {
     if (producto) {
@@ -59,7 +64,7 @@ export default function CambioPrecioModal({
         producto.id,
         {
           precio: formData.nuevoPrecio,
-          motivo: formData.motivo?.trim() || undefined,
+          motivo: formData.motivo.trim(),
           usuarioId: getUsuarioId(),
         }
       );
@@ -110,14 +115,19 @@ export default function CambioPrecioModal({
 
                 <div className="flex flex-col">
                   <label className="text-sm font-medium text-gray-700">
-                    Motivo
+                    Motivo <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     value={watch("motivo")}
                     onChange={(e) => setValue("motivo", e.target.value)}
                     className="bg-white text-black border rounded px-2 py-1 min-h-[80px]"
-                    placeholder="Ingresa el motivo del cambio (opcional)"
+                    placeholder="Ingresa el motivo del cambio"
                   />
+                  {methods.formState.errors.motivo?.message && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {methods.formState.errors.motivo.message}
+                    </p>
+                  )}
                 </div>
 
                 {methods.formState.errors.root?.message && (
@@ -129,7 +139,11 @@ export default function CambioPrecioModal({
             </CardContent>
 
             <CardFooter className="flex justify-center py-3">
-              <Button type="submit" className="btn btn-dark">
+              <Button
+                type="submit"
+                className="btn btn-dark"
+                disabled={!motivoValido}
+              >
                 Confirmar
               </Button>
             </CardFooter>
