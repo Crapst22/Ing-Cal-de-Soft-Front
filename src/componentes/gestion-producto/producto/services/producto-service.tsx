@@ -19,6 +19,8 @@ const ProductoService = {
 
   buscarPorTexto: (filtros: any) =>
     ApiService.get("/producto/search-texto", filtros),
+  obtenerHistorialPrecios: (filtros: { skip: number; take: number }) =>
+    ApiService.get("/producto/historial-precios", filtros),
   actualizarPreciosMasivo: async (
     payload: ActualizarPreciosMasivoDto
   ): Promise<{ mensaje: string }> => {
@@ -38,24 +40,7 @@ const ProductoService = {
     }
   },
 
-  actualizarPreciosMasivo: async (
-    payload: ActualizarPreciosMasivoDto
-  ): Promise<{ mensaje: string }> => {
-    try {
-      const token = localStorage.getItem("Token");
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
-      const { data } = await axios.put<{ mensaje: string }>(
-        `${apiUrl}/producto/actualizar-precios-masivo`,
-        payload,
-        { headers }
-      );
-      return data;
-    } catch (error) {
-      console.error("Error al actualizar precios masivamente:", error);
-      throw error;
-    }
-  },
+ 
 
   
   obtenerMobile: async (filtros: any) => {

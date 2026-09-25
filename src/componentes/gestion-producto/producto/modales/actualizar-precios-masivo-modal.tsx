@@ -35,6 +35,7 @@ export default function ActualizarPreciosMasivoModal({
   const [lineaSeleccionada, setLineaSeleccionada] = useState<SelectLinea | null>(null);
   const [tipoAumento, setTipoAumento] = useState<number>(TipoAumento.PORCENTAJE);
   const [valor, setValor] = useState<string>("");
+  const [motivo, setMotivo] = useState<string>("");
 
   // Estados de control
   const [cargandoLineas, setCargandoLineas] = useState<boolean>(false);
@@ -75,6 +76,11 @@ export default function ActualizarPreciosMasivoModal({
     const valorNum = parseFloat(valor);
     if (isNaN(valorNum) || valorNum <= 0) {
       setErrorValidacion("Debe ingresar un valor mayor a 0.");
+      return false;
+    }
+
+    if (!motivo.trim()) {
+      setErrorValidacion("Ingrese el motivo del ajuste masivo.");
       return false;
     }
 
@@ -120,6 +126,7 @@ export default function ActualizarPreciosMasivoModal({
         valor: valorNum,
         lineaId: esGlobal ? null : (lineaSeleccionada?.id ?? null),
         usuarioId,
+        motivo,
       };
 
       const response = await ProductoService.actualizarPreciosMasivo(payload);
@@ -157,6 +164,18 @@ export default function ActualizarPreciosMasivoModal({
                 {errorValidacion}
               </div>
             )}
+
+            {/* Selector de Ámbito (Global vs Por Línea) */}
+            <div className="space-y-2">
+              <label htmlFor="motivoAjusteMasivo" className="text-sm font-semibold text-gray-700 dark:text-gray-200 block">Motivo</label>
+              <Input
+                id="motivoAjusteMasivo"
+                value={motivo}
+                onChange={(event) => setMotivo(event.target.value)}
+                maxLength={500}
+                placeholder="Motivo del ajuste de precios"
+              />
+            </div>
 
             {/* Selector de Ámbito (Global vs Por Línea) */}
             <div className="space-y-2">

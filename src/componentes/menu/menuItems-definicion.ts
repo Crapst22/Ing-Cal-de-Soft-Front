@@ -59,6 +59,12 @@ export const menuItems: MenuItem[] = [
       },
       {
         icon: TrendingUp,
+        label: "Historial de Precios",
+        path: "historial-precios",
+        roles: [Rol.ADMINISTRADOR, Rol.EMPLEADO, Rol.ROOT],
+      },
+      {
+        icon: TrendingUp,
         label: "Cambio de Precios",
         path: "cambio-precios-masivo",
         roles: [Rol.ADMINISTRADOR, Rol.ROOT],

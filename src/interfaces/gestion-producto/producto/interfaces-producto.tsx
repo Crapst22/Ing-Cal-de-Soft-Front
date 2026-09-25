@@ -208,4 +208,5 @@ export interface ActualizarPreciosMasivoDto {
   valor: number;
   lineaId?: number | null;
   usuarioId: number;
+  motivo: string;
 }
