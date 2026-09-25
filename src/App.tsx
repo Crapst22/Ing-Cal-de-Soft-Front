@@ -22,6 +22,7 @@ import DashboardHome from "./pages/dashboard-home";
 
 import ListaPrecios from "./componentes/gestion-producto/precios/lista_precios/util/lista-precios";
 import ConsultarPersonal from "./componentes/gestion-organizacion/personal/utils/consultar-personal";
+import HistorialPreciosPage from "./componentes/gestion-producto/historial-precios/historial-precios-page";
 
 function App() {
   return (
@@ -48,6 +49,9 @@ function App() {
               <Route path="presentacion" element={<ConsultarPresentaciones />} />
               <Route path="usuario" element={<GestionUsuario />} />
               <Route path="producto" element={<ConsultarProducto />} />
+              <Route element={<PrivateRoute allowedRoles={[Rol.EMPLEADO, Rol.ADMINISTRADOR, Rol.ROOT]} />}>
+                <Route path="historial-precios" element={<HistorialPreciosPage />} />
+              </Route>
               <Route path="cliente" element={<ConsultarCliente />} />
               <Route path="proveedor" element={<ConsultarProveedores />} />
               <Route path="personal" element={<ConsultarPersonal />} />

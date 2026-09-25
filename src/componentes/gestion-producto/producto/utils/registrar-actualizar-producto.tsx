@@ -51,6 +51,7 @@ export default function RegistrarActualizarProductoForm({
   const [rStockCritico, setStockCritico] = useState(false);
   const [pack, setPack] = useState(false);
   const [usaOferta, setUsaOferta] = useState(false);
+  const [motivoCambioPrecio, setMotivoCambioPrecio] = useState('');
   const [lineaSeleccionada, setLineaSeleccionada] = useState<Linea>({} as Linea);
 
   console.log("Configuración del sistema:", configuracion);
@@ -239,9 +240,15 @@ export default function RegistrarActualizarProductoForm({
       }
 
       if (producto) {
+        const cambioPrecio = Number(formData.precio ?? 0) !== Number(producto.precio ?? 0);
+        if (cambioPrecio && !motivoCambioPrecio.trim()) {
+          setError('root', { type: 'manual', message: 'Ingrese el motivo del cambio de precio.' });
+          return;
+        }
         const payload = {
           ...formData,
           usuarioUpdatedId: usuarioId,
+          ...(cambioPrecio ? { motivo: motivoCambioPrecio } : {}),
         };
 
         response = await ProductoService.actualizar(producto.id, payload);
@@ -447,6 +454,20 @@ export default function RegistrarActualizarProductoForm({
                     maxDigits={9}
                     disabled={producto && producto.sistema > 0 ? true : false}
                   />
+                  {producto && (
+                    <div className="space-y-2">
+                      <label htmlFor="motivoCambioPrecio" className="text-sm font-medium">Motivo del cambio de precio</label>
+                      <textarea
+                        id="motivoCambioPrecio"
+                        value={motivoCambioPrecio}
+                        onChange={(event) => setMotivoCambioPrecio(event.target.value)}
+                        maxLength={500}
+                        rows={2}
+                        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        placeholder="Describa el motivo cuando modifica el precio"
+                      />
+                    </div>
+                  )}
                   <PriceInput
                     name="precio"
                     label="Precio"
