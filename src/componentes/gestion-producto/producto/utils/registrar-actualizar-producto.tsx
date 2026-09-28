@@ -100,6 +100,22 @@ export default function RegistrarActualizarProductoForm({
   const cantidadPorPack = watch("cantidadPorPack");
   const utilizaStockMinimo = watch("utilizaStockMinimo");
   const utilizaPack = watch("utilizaPack");
+
+  // Recalcula el precio automáticamente cuando cambian costo o porcentaje
+  const costoWatch = watch("costo");
+  const porcentajeWatch = watch("porcentaje");
+
+  useEffect(() => {
+    const costoNum = Number(costoWatch) || 0;
+    const porcentajeNum = Number(porcentajeWatch) || 0;
+
+    if (costoNum > 0) {
+      const nuevoPrecio = costoNum * (1 + porcentajeNum / 100);
+      setValue("precio", Number(nuevoPrecio.toFixed(2)), {
+        shouldValidate: true,
+      });
+    }
+  }, [costoWatch, porcentajeWatch, setValue]);
   
 
   //=============================== CONSTANTES PARA MOVIMIENTO ENTRE CAMPOS ==================================
